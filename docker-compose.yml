@@ -1,0 +1,53 @@
+# login with facebook environment in docker
+version: '3.3'
+
+services:
+  app:
+    image: nginx:latest
+    ports:
+      - "8088:80"
+      - "3000:443"
+    restart: always
+    volumes:
+      - ./etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./etc/ssl:/etc/ssl
+      - ./app:/var/www/html
+    container_name: Nginx_login_facebook
+    links:
+      - php
+      - mongodb
+    depends_on:
+      - php
+      - composer
+      - mongodb
+  php:
+    image: php:7.2.5-fpm
+    links:
+      - mongodb
+    restart: always
+    container_name: PHP_login_facebook
+    volumes:
+      - ./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./app:/var/www/html
+
+  composer:
+    image: composer
+    links:
+      - php
+    container_name: Composer_login_facebook
+    volumes:
+      - ./app:/var/www/html
+      - /var/www/html/vendor
+    command: install
+    restart: 'no'
+
+  mongodb:
+    image: mongo:latest
+    container_name: MongoDB_login_facebook
+    restart: always
+    volumes:
+      - ./data/db/mongo:/data/db
+    ports:
+      - "27020:27017"
+    command: --storageEngine wiredTiger
+  

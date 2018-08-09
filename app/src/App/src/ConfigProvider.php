@@ -36,7 +36,11 @@ class ConfigProvider
                 Handler\PingHandler::class => Handler\PingHandler::class,
             ],
             'factories'  => [
+                // homepage
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+
+                // connection
+                \Doctrine\MongoDB\Connection::class => \App\Core\Factory\RelationalManagerFactory::class,
             ],
         ];
     }

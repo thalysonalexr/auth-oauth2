@@ -6,6 +6,7 @@ return [
     'doctrine' => [
         'connection' => [
             'default' => [
+                'db_name' => 'login_facebook',
                 'proxies_dir' => __DIR__ . '/../../data/proxies',
                 'proxies_namespace' => 'Proxies',
                 'hydrators_dir' => __DIR__ . '/../../data/hydrators',

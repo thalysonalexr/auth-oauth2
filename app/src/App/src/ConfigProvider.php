@@ -40,7 +40,16 @@ class ConfigProvider
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
 
                 // connection
-                \Doctrine\MongoDB\Connection::class => \App\Core\Factory\RelationalManagerFactory::class,
+                \Doctrine\ODM\MongoDB\DocumentManager::class => \App\Core\Factory\DocumentManagerFactory::class,
+
+                // actions
+                \App\Domain\Handler\User\Create::class => \App\Core\Factory\UserHandlerFactory::class,
+
+                // service
+                \App\Domain\Service\UserServiceInterface::class => \App\Core\Domain\Service\UserServiceFactory::class,
+
+                // repository
+                \App\Infrastructure\Repository\UserRepositoryInterface::class => \App\Core\Infrastructure\Repository\UserRepositoryFactory::class,
             ],
         ];
     }

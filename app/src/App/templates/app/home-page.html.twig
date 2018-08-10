@@ -1,120 +1,148 @@
 {% extends '@layout/default.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Login with Facebook{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #title-home{
+            font-family: 'Dosis', sans-serif;
+            color: #dbdbdb;
+            text-shadow: 1px 1px 2px #909090;
+        }
+
+        .container-flex{
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 90vh;
+        }
+
+        .btn{
+            color: #fff;
+            font-family: 'Dosis', sans-serif;
+            font-size: 1.5em;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .facebook-color{ color: #4267b2; }
+        .add{ background-color: #2cc950; }
+        .add:hover{ background-color: #218939; }
+        .facebook{ background-color: #4267b2; }
+        .facebook:hover{ background-color: #29487d; }
+        .login{ background-color: #428cf4; }
+        .login:hover{ background-color: #2b5ca0; }
+        
+        .btn-login{
+            width: 100%;
+        }
+
+        #buttons{ display: none; }
+        #buttons > div{ margin-right: 2%; }
+    </style>
+{% endblock %}
 
 {% block content %}
-    <div class="jumbotron">
-        <h1>Welcome to <span class="zf-green">zend-expressive</span></h1>
-        <p>
-            Congratulations! You have successfully installed the
-            <a href="https://github.com/zendframework/zend-expressive-skeleton" target="_blank">zend-expressive skeleton application</a>.
-            This skeleton can serve as a simple starting point for you to begin building your application.
+    <div id="container" class="container-flex">
+        <p id="title-home" class="display-1">
+            Login with <span class="facebook-color">Facebook</span> API
         </p>
-        <p>
-            Expressive builds on zend-stratigility to provide a minimalist PSR-7 middleware framework for PHP.
-        </p>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <h2>
-                <a href="https://docs.zendframework.com/zend-expressive/getting-started/features" target="_blank">
-                    <i class="fa fa-bolt"></i> Agile &amp; Lean
-                </a>
-            </h2>
-            <p>
-                Expressive is fast, small and perfect for rapid application development, prototyping and api's.
-                You decide how you extend it and choose the best packages from major framework or standalone projects.
-            </p>
+        <div id="buttons">
+            <div>
+                <button type="button" data-toggle="modal" data-target="#register" title="Register now!" class="btn add">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+            </div>
+            <div>
+                <button type="button" data-toggle="modal" data-target="#login" title="Login now!" class="btn login">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+            <div>
+                <button type="button" title="Login with facebook" class="btn facebook">
+                    <i class="fab fa-facebook-f"></i> Login Facebook
+                </button>
+            </div>
         </div>
-
-        <div class="col-md-4">
-            <h2>
-                <a href="https://github.com/zendframework/zend-diactoros" target="_blank">
-                    <i class="fa fa-exchange-alt"></i> HTTP Messages
-                </a>
-            </h2>
-            <p>
-                HTTP messages are the foundation of web development. Web browsers and HTTP clients such as cURL create
-                HTTP request messages that are sent to a web server, which provides an HTTP response message.
-                Server-side code receives an HTTP request message, and returns an HTTP response message.
-            </p>
+        <!-- form register in modal -->
+        <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="RegisterNow" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="register-label">Register a new user!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <form id="register-form" method="post" action="{{ path('register.post') }}">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="John Badge" name="name" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="example@email.com" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Min 5 characters and maximum 12" name="password" minlength="5" maxlength="12" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="conf-password" class="col-form-label">Confirm password</label>
+                        <input type="password" class="form-control" id="conf-password" placeholder="Repeat your password" minlength="5" maxlength="12" required>
+                    </div>
+                </form>
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" form="register-form" class="btn btn-primary">Create user</button>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="col-md-4">
-            <h2>
-                <a href="https://github.com/zendframework/zend-stratigility" target="_blank">
-                    <i class="fa fa-dot-circle"></i> Middleware
-                </a>
-            </h2>
-            <p>
-                Middleware is code that exists between the request and response, and which can take the incoming
-                request, perform actions based on it, and either complete the response or pass delegation on to the
-                next middleware in the queue. Your application is easily extended with custom middleware created by
-                yourself or <a href="https://packagist.org/search/?q=middleware" target="_blank">others</a>.
-            </p>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <h2>
-                <a href="https://docs.zendframework.com/zend-expressive/features/container/intro" target="_blank">
-                    <i class="fa fa-cube"></i> Containers
-                </a>
-            </h2>
-            <p>
-                Expressive promotes and advocates the usage of Dependency Injection/Inversion of Control containers
-                when writing your applications. Expressive supports multiple containers which typehints against
-                <a href="https://github.com/php-fig/container" target="_blank">PSR Container</a>.
-            </p>
-            {% if containerName is defined %}
-                <p>
-                    <a href="{{ containerDocs }}" target="_blank">
-                        Get started with {{ containerName }}.
-                    </a>
-                </p>
-            {% endif %}
-        </div>
-
-        <div class="col-md-4">
-            <h2>
-                <a href="https://docs.zendframework.com/zend-expressive/features/router/intro" target="_blank">
-                    <i class="fa fa-plane"></i> Routers
-                </a>
-            </h2>
-            <p>
-                One fundamental feature of zend-expressive is that it provides mechanisms for implementing dynamic
-                routing, a feature required in most modern web applications. Expressive ships with multiple adapters.
-            </p>
-            {% if routerName is defined %}
-                <p>
-                    <a href="{{ routerDocs }}" target="_blank">
-                        Get started with {{ routerName }}.
-                    </a>
-                </p>
-            {% endif %}
-        </div>
-
-        <div class="col-md-4">
-            <h2>
-                <a href="https://docs.zendframework.com/zend-expressive/features/template/twig" target="_blank">
-                    <i class="fa fa-edit"></i> Templating
-                </a>
-            </h2>
-            <p>
-                By default, no middleware in Expressive is templated. We do not even provide a default templating
-                engine, as the choice of templating engine is often very specific to the project and/or organization.
-                However, Expressive does provide abstraction for templating, which allows you to write middleware that
-                is engine-agnostic.
-            </p>
-            {% if templateName is defined %}
-                <p>
-                    <a href="{{ templateDocs }}" target="_blank">
-                        Get started with {{ templateName }}.
-                    </a>
-                </p>
-            {% endif %}
+        <!-- form login in modal -->
+        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="LoginNow" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="login-label">Login now!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="email-login" placeholder="example@email.com" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password-login" placeholder="Your password" minlength="5" maxlength="12" required>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-login">Log In</button>
+                </form>
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    {% block javascript %}
+        <script>
+            $(document).ready(() => {
+                // load home effects
+                $('#container').fadeIn(2000);
+                $('#container').css({"display": "flex"});
+
+                setTimeout(() => {
+                    $('#container').animate({"height": "80vh"});
+
+                    $('#buttons').fadeIn(2000);
+                    $('#buttons').css({"display": "flex"});
+                }, 2000);
+            });
+        </script>
+    {% endblock %}
 {% endblock %}

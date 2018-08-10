@@ -20,8 +20,9 @@ services:
       - php
       - composer
       - mongodb
+
   php:
-    image: php:7.2.5-fpm
+    build: ./php
     links:
       - mongodb
     restart: always
@@ -49,5 +50,6 @@ services:
       - ./data/db/mongo:/data/db
     ports:
       - "27020:27017"
-    command: --storageEngine wiredTiger
-  
+    command: --version
+    environment:
+      - MONGO_URL=mongodb://127.0.0.1:27017/login_facebook

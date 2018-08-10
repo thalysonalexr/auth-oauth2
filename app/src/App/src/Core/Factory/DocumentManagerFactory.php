@@ -12,19 +12,20 @@ use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 
 final class DocumentManagerFactory
 {
-    public function __invoke(ContainerInterface $container): Connection
+    public function __invoke(ContainerInterface $container): DocumentManager
     {
         $config = $container->get('config')['doctrine']['connection']['default'];
 
         AnnotationDriver::registerAnnotationClasses();
 
         $odmConfig = new Configuration();
+        $odmConfig->setDefaultDB($config['db_name']);
         $odmConfig->setProxyDir($config['proxies_dir']);
         $odmConfig->setProxyNamespace($config['proxies_namespace']);
         $odmConfig->setHydratorDir($config['hydrators_dir']);
         $odmConfig->setHydratorNamespace($config['hydrators_namespace']);
         $odmConfig->setMetadataDriverImpl(AnnotationDriver::create($config['documents_dir']));
 
-        var_dump(DocumentManager::create(new Connection(), $odmConfig));exit();
+        return DocumentManager::create(new Connection(), $odmConfig);
     }
 }

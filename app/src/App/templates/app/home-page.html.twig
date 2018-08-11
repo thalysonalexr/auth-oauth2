@@ -3,43 +3,7 @@
 {% block title %}Login with Facebook{% endblock %}
 
 {% block stylesheets %}
-    <style>
-        #title-home{
-            font-family: 'Dosis', sans-serif;
-            color: #dbdbdb;
-            text-shadow: 1px 1px 2px #909090;
-        }
-
-        .container-flex{
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 90vh;
-        }
-
-        .btn{
-            color: #fff;
-            font-family: 'Dosis', sans-serif;
-            font-size: 1.5em;
-            font-family: 'Nunito', sans-serif;
-        }
-        
-        .facebook-color{ color: #4267b2; }
-        .add{ background-color: #2cc950; }
-        .add:hover{ background-color: #218939; }
-        .facebook{ background-color: #4267b2; }
-        .facebook:hover{ background-color: #29487d; }
-        .login{ background-color: #428cf4; }
-        .login:hover{ background-color: #2b5ca0; }
-        
-        .btn-login{
-            width: 100%;
-        }
-
-        #buttons{ display: none; }
-        #buttons > div{ margin-right: 2%; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -66,7 +30,7 @@
         </div>
         <!-- form register in modal -->
         <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="RegisterNow" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="register-label">Register a new user!</h5>
@@ -75,7 +39,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                <form id="register-form" method="post" action="{{ path('register.post') }}">
+                <form id="form-register" method="post" action="{{ path('register.post') }}">
                     <div class="form-group">
                         <label for="name" class="col-form-label">Name</label>
                         <input type="text" class="form-control" id="name" placeholder="John Badge" name="name" required autofocus>
@@ -96,14 +60,14 @@
                 </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" form="register-form" class="btn btn-primary">Create user</button>
+                        <button type="submit" form="form-register" class="btn btn-primary">Create user</button>
                     </div>
                 </div>
             </div>
         </div>
         <!-- form login in modal -->
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="LoginNow" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="login-label">Login now!</h5>
@@ -112,37 +76,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                <form>
-                    <div class="form-group">
+                <form id="form-login">
+                    <div class="form-group" method="post" action="{{ path('login.post') }}">
                         <input type="email" class="form-control" id="email-login" placeholder="example@email.com" required autofocus>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" id="password-login" placeholder="Your password" minlength="5" maxlength="12" required>
                     </div>
-                    <button type="button" class="btn btn-primary btn-login">Log In</button>
                 </form>
                 </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" form="form-login" class="btn btn-primary">Log In</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     {% block javascript %}
-        <script>
-            $(document).ready(() => {
-                // load home effects
-                $('#container').fadeIn(2000);
-                $('#container').css({"display": "flex"});
-
-                setTimeout(() => {
-                    $('#container').animate({"height": "80vh"});
-
-                    $('#buttons').fadeIn(2000);
-                    $('#buttons').css({"display": "flex"});
-                }, 2000);
-            });
-        </script>
+        <script src="{{ asset('assets/js/home.js') }}"></script>
     {% endblock %}
 {% endblock %}

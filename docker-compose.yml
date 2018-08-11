@@ -50,6 +50,4 @@ services:
       - ./data/db/mongo:/data/db
     ports:
       - "27020:27017"
-    command: --version
-    environment:
-      - MONGO_URL=mongodb://127.0.0.1:27017/login_facebook
+    command: --storageEngine

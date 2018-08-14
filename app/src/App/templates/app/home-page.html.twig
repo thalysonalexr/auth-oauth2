@@ -14,17 +14,20 @@
         <div id="buttons">
             <div>
                 <button type="button" data-toggle="modal" data-target="#register" title="Register now!" class="btn add">
-                    <i class="fas fa-user-plus"></i> Register
+                    <i class="fas fa-user-plus"></i>
+                    <span class="text-btn">Register</span>
                 </button>
             </div>
             <div>
                 <button type="button" data-toggle="modal" data-target="#login" title="Login now!" class="btn login">
-                    <i class="fas fa-sign-in-alt"></i> Login
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span class="text-btn">Login</span>
                 </button>
             </div>
             <div>
                 <button type="button" title="Login with facebook" class="btn facebook">
-                    <i class="fab fa-facebook-f"></i> Login Facebook
+                    <i class="fab fa-facebook-f"></i>
+                    <span class="text-btn">Login Facebook</span>
                 </button>
             </div>
         </div>
@@ -35,32 +38,35 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="register-label">Register a new user!</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                <form id="form-register" method="post" action="{{ path('register.post') }}">
-                    <div class="form-group">
-                        <label for="name" class="col-form-label">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="John Badge" name="name" required autofocus>
+                            <span class="close" aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="email" class="col-form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="example@email.com" name="email" required>
+                    <div class="alert alert-danger show-alert-confirm-pass" role="alert">
+                        Current passwords do not match. Check please
                     </div>
-                    <div class="form-group">
-                        <label for="password" class="col-form-label">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Min 5 characters and maximum 12" name="password" minlength="5" maxlength="12" required>
+                    <div class="modal-body">
+                        <form id="form-register" method="post" action="{{ path('register.post') }}">
+                            <div class="form-group">
+                                <label for="name" class="col-form-label">Name</label>
+                                <input type="text" class="form-control ipt-form-register" id="name" placeholder="John Badge" name="name" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="col-form-label">Email</label>
+                                <input type="email" class="form-control ipt-form-register" id="email" placeholder="example@email.com" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="col-form-label">Password</label>
+                                <input type="password" class="form-control ipt-form-register" id="password" placeholder="Min 5 characters and maximum 12" name="password" minlength="5" maxlength="12" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="conf-password" class="col-form-label">Confirm password</label>
+                                <input type="password" class="form-control ipt-form-register" id="conf-password" placeholder="Repeat your password" minlength="5" maxlength="12" required>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="conf-password" class="col-form-label">Confirm password</label>
-                        <input type="password" class="form-control" id="conf-password" placeholder="Repeat your password" minlength="5" maxlength="12" required>
-                    </div>
-                </form>
-                </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" form="form-register" class="btn btn-primary">Create user</button>
+                        <button type="submit" form="form-register" class="btn btn-primary disabled" id="btn-submit-register" disabled>Create user</button>
                     </div>
                 </div>
             </div>
@@ -72,22 +78,22 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="login-label">Login now!</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                <form id="form-login">
-                    <div class="form-group" method="post" action="{{ path('login.post') }}">
-                        <input type="email" class="form-control" id="email-login" placeholder="example@email.com" required autofocus>
+                            <span class="close" aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="password-login" placeholder="Your password" minlength="5" maxlength="12" required>
+                    <div class="modal-body">
+                        <form id="form-login">
+                            <div class="form-group" method="post" action="{{ path('login.post') }}">
+                                <input type="email" class="form-control ipt-form-login" id="email-login" placeholder="example@email.com" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control ipt-form-login" id="password-login" placeholder="Your password" minlength="5" maxlength="12" required>
+                            </div>
+                        </form>
                     </div>
-                </form>
-                </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" form="form-login" class="btn btn-primary">Log In</button>
+                        <button type="submit" form="form-login" class="btn btn-primary disabled" id="btn-submit-login" disabled>Log In</button>
                     </div>
                 </div>
             </div>

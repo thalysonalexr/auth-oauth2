@@ -16,7 +16,7 @@ final class DocumentManagerFactory
     {
         $config = $container->get('config')['doctrine']['connection']['default'];
 
-        AnnotationDriver::registerAnnotationClasses();
+        $connection = new Connection("mongodb://" . $config['db_host'] . ":27017");
 
         $odmConfig = new Configuration();
         $odmConfig->setDefaultDB($config['db_name']);
@@ -26,6 +26,8 @@ final class DocumentManagerFactory
         $odmConfig->setHydratorNamespace($config['hydrators_namespace']);
         $odmConfig->setMetadataDriverImpl(AnnotationDriver::create($config['documents_dir']));
 
-        return DocumentManager::create(new Connection(), $odmConfig);
+        AnnotationDriver::registerAnnotationClasses();
+
+        return DocumentManager::create($connection, $odmConfig);
     }
 }

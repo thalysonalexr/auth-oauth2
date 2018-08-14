@@ -17,20 +17,18 @@
 
 .btn{
     color: #fff;
-    font-family: 'Dosis', sans-serif;
     font-size: 1em;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     width: 100%;
-
+    font-weight: 400;
+    background-color: rgba(19, 35, 47, 0.9);
+    border: 1px solid #fcfcfc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.facebook-color{ color: #4267b2; }
-.add{ background-color: #2cc950; }
-.add:hover{ background-color: #218939; }
-.facebook{ background-color: #4267b2; }
-.facebook:hover{ background-color: #29487d; }
-.login{ background-color: #428cf4; }
-.login:hover{ background-color: #2b5ca0; }
+.text-btn{ margin-left: 5%; padding: 3%; }
 
 .btn-login{ width: 100%; }
 
@@ -39,9 +37,7 @@
     flex-direction: column;
 }
 
-#buttons > div{
-    margin: 2%;
-}
+#buttons > div{ margin: 2%; }
 
 @media only screen and (min-width: 360px){
     #title-home{ font-size: 1.8em; }
@@ -52,6 +48,43 @@
     #title-home{ font-size: 2.2em; }
     .btn{ font-size: 1.1em; }
 }
+
+/* modal */
+.modal-content, .form-control{ background-color: rgba(19, 35, 47, 0.9); }
+
+.form-control:focus{ background-color: rgba(19, 35, 47, 0.9); }
+
+.modal-title, .col-form-label{
+    color: #fcfcfc;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+}
+
+.modal-title{ font-size: 1.7em; }
+.col-form-label{ font-size: 1.2em; }
+span.close{ color: #fcfcfc; }
+
+input.form-control[type="text"],
+input.form-control[type="email"],
+input.form-control[type="password"]{
+    padding: 4% 2%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    color: #dddd;
+    font-style: italic;
+}
+
+.disabled{
+    background-color: #808080!important;
+    border: 1px solid #909090!important;
+}
+
+.show-alert-confirm-pass{
+    display: none;
+    margin: 2%;
+}
+
+/* responsive */
 
 @media only screen and (min-width: 440px){
     #title-home{ font-size: 2.6em; }

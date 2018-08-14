@@ -1,5 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Dosis');
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+/* fonts by google fonts */
+@import url('https://fonts.googleapis.com/css?family=Dosis'); /* dosis */
+@import url('https://fonts.googleapis.com/css?family=Nunito'); /* nunito */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans'); /* open sans */
+
+/* general */
+
+*{
+    box-sizing: border-box;
+}
 
 html, body{
     min-height: 100%;

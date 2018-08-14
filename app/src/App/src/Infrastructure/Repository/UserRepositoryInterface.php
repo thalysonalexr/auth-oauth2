@@ -9,7 +9,9 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 
 interface UserRepositoryInterface
 {
-    public function __construct(DocumentManager $connection);
+    public function __construct(DocumentManager $document);
 
-    public function create(User $user): int;
+    public function create(User $user): void;
+
+    public function findOne(array $field = null): ?User;
 }

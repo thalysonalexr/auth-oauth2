@@ -13,7 +13,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * @ODM\Document(
  *     db="login_facebook",
  *     collection="users",
- *     repositoryClass="LoginFacebook\UserRepository",
  *     indexes={
  *         @ODM\Index(keys={"email"="desc"}, options={"unique"=true})
  *     },
@@ -23,7 +22,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  */
 final class User implements \JsonSerializable
 {
-    /** @ODM\Id(strategy="NONE") */
+    /** @ODM\Id(strategy="NONE", type="string") */
     private $uuid;
 
     /** @ODM\Field(type="string") */

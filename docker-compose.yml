@@ -45,9 +45,11 @@ services:
   mongodb:
     image: mongo:latest
     container_name: MongoDB_login_facebook
+    environment:
+      - MONGO_DATA_DIR=/data/db
     restart: always
     volumes:
       - ./data/db/mongo:/data/db
+    command: mongod --smallfiles
     ports:
-      - "27020:27017"
-    command: --storageEngine
+      - 27017:27017

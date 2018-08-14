@@ -3,11 +3,11 @@
 [![GitHub version](https://badge.fury.io/gh/thalysonrodrigues%2Flogin-facebook.svg)](https://badge.fury.io/gh/thalysonrodrigues%2Flogin-facebook)
 [![Software License](https://img.shields.io/apm/l/vim-mode.svg)](https://github.com/thalysonrodrigues/login-facebook/blob/master/LICENSE)
 
-> Template *fullstack* para criar usuários, fazer login com dados criados ou através de OAuth com o Facebook. Este template foi criado com o esqueleto do micro framework zend expressive. Para mais informações sobre a estrutura e configuração acesse: https://docs.zendframework.com/zend-expressive/
+> Template **fullstack** para criar usuários, fazer login com dados criados ou através de OAuth com o Facebook. Este template foi criado com o esqueleto do micro framework zend expressive. Para mais informações sobre a estrutura e configuração acesse: https://docs.zendframework.com/zend-expressive/
 
 ## Por que este modelo?
 
-Este modelo tem o intuito de facilitar a criação de um blog, site, ou quaisquer aplicações web que necessitem de autenticação de usuários utilizando da abstração do *facebook* ou autenticações *jwt*.
+Este modelo tem o intuito de facilitar a criação de um blog, site, ou quaisquer aplicações web que necessitem de autenticação de usuários utilizando da abstração do **facebook** ou autenticações **jwt**.
 
 ## Importante
 

@@ -31,6 +31,6 @@ final class Uuid implements ValueObjectsInterface
 
     public function __toString(): string
     {
-        return $this->id->toString();
+        return $this->uuid->toString();
     }
 }

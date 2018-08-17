@@ -44,12 +44,16 @@ class ConfigProvider
 
                 // actions
                 \App\Domain\Handler\User\Create::class => \App\Core\Factory\UserHandlerFactory::class,
+                \App\Domain\Handler\User\Login::class => \App\Core\Factory\UserAuthHandlerFactory::class,
 
                 // service
                 \App\Domain\Service\UserServiceInterface::class => \App\Core\Domain\Service\UserServiceFactory::class,
 
                 // repository
                 \App\Infrastructure\Repository\UserRepositoryInterface::class => \App\Core\Infrastructure\Repository\UserRepositoryFactory::class,
+
+                // middlewares
+                \Middlewares\HttpAuthentication::class => \App\Core\Middleware\JwtAuthenticationFactory::class,
             ],
         ];
     }

@@ -17,37 +17,34 @@
 
 .btn{
     color: #fff;
-    font-size: 1em;
-    font-family: 'Open Sans', sans-serif;
-    width: 100%;
-    font-weight: 400;
     background-color: rgba(19, 35, 47, 0.9);
     border: 1px solid #fcfcfc;
+    font-size: 1em;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;    
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.text-btn{ margin-left: 5%; padding: 3%; }
+.box-btn-menu .btn{ width: 200px; }
+
+.btn i{ padding: 2%; }
+.btn:hover{ background-color: rgba(19, 35, 47, 0.4); }
+
+.text-btn{
+    margin-left: 5%;
+    padding: 3%;
+}
 
 .btn-login{ width: 100%; }
 
-#buttons{
+.box-btn-menu{
     display: none;
     flex-direction: column;
 }
 
-#buttons > div{ margin: 2%; }
-
-@media only screen and (min-width: 360px){
-    #title-home{ font-size: 1.8em; }
-    .btn{ font-size: 1.05em; }
-}
-
-@media only screen and (min-width: 400px){
-    #title-home{ font-size: 2.2em; }
-    .btn{ font-size: 1.1em; }
-}
+.box-btn-menu > div{ margin: 2%; }
 
 /* modal */
 .modal-content, .form-control{ background-color: rgba(19, 35, 47, 0.9); }
@@ -62,7 +59,7 @@
 
 .modal-title{ font-size: 1.7em; }
 .col-form-label{ font-size: 1.2em; }
-span.close{ color: #fcfcfc; }
+span.close{ color: #fcfcfc!important; }
 
 input.form-control[type="text"],
 input.form-control[type="email"],
@@ -86,53 +83,71 @@ input.form-control[type="password"]{
 
 /* responsive */
 
+@media only screen and (min-width: 360px){
+    #title-home{ font-size: 1.8em; }
+    .box-btn-menu .btn{ font-size: 1.05em; }
+}
+
+@media only screen and (min-width: 400px){
+    #title-home{ font-size: 2.2em; }
+    .box-btn-menu .btn{ font-size: 1.1em; }
+}
+
 @media only screen and (min-width: 440px){
     #title-home{ font-size: 2.6em; }
-    .btn{ font-size: 1.15em; }
+    .box-btn-menu .btn{ font-size: 1.15em; }
 }
 
 @media only screen and (min-width: 480px){
     #title-home{ font-size: 2.8em; }
-    .btn{ font-size: 1.2em; }
+    .box-btn-menu .btn{
+        font-size: 1.2em;
+        width: 220px;
+    }
 }
 
 @media only screen and (min-width: 520px){
     #title-home{ font-size: 3.1em; }
-    .btn{ font-size: 1.25em; }
+    .box-btn-menu .btn{
+        font-size: 1.25em;
+        width: 240px;
+    }
 }
 
 @media only screen and (min-width: 560px){
     #title-home{ font-size: 3.2em; }
-    .btn{ font-size: 1.3em; }
+    .box-btn-menu .btn{
+        font-size: 1.3em;
+        width: 260px;
+    }
 }
 
 @media only screen and (min-width: 600px){
     #title-home{ font-size: 3.3em; }
-    .btn{ font-size: 1.35em; }
+    .box-btn-menu .btn{ font-size: 1.35em; }
 }
 
 @media only screen and (min-width: 720px){
     #title-home{ font-size: 3.4 em; }
-    .btn{ font-size: 1.4em; }
-    #buttons{ flex-direction: row; }
+    .box-btn-menu .btn{
+        font-size: 1em;
+        width: 170px;
+    }
+    .box-btn-menu{ flex-direction: row; }
 }
 
 @media only screen and (min-width: 820px){
     #title-home{ font-size: 3.6em; }
-    .btn{ font-size: 1.45em; }
 }
 
 @media only screen and (min-width: 900px){
     #title-home{ font-size: 3.8em; }
-    .btn{ font-size: 1.5em; }
 }
 
 @media only screen and (min-width: 1000px){
     #title-home{ font-size: 4em; }
-    .btn{ font-size: 1.55em; }
 }
 
 @media only screen and (min-width: 1280px){
     #title-home{ font-size: 5.5em; }
-    .btn{ font-size: 1.6em; }
 }

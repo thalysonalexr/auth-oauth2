@@ -7,17 +7,14 @@ namespace App\Domain\Documents;
 use App\Domain\Value\Uuid;
 use App\Domain\Value\Email;
 use App\Domain\Value\Password;
+use App\Domain\Documents\Logs;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
  * @ODM\Document(
  *     db="login_facebook",
  *     collection="users",
- *     indexes={
- *         @ODM\Index(keys={"email"="desc"}, options={"unique"=true})
- *     },
- *     readOnly=true,
- *     requireIndexes=true
+ *     readOnly=true
  * )
  */
 final class User implements \JsonSerializable
@@ -28,11 +25,14 @@ final class User implements \JsonSerializable
     /** @ODM\Field(type="string") */
     private $name;
 
-    /** @ODM\Field(type="string") */
+    /** @ODM\Field(type="string") @ODM\UniqueIndex(order="asc") */
     private $email;
 
     /** @ODM\Field(type="string") */
     private $password;
+
+    /** @ODM\ReferenceMany(targetDocument="Logs", cascade="all") */
+    private $logs = array();
 
     private function __construct(
         Uuid $uuid,
@@ -80,6 +80,21 @@ final class User implements \JsonSerializable
     public function setPassword(Password $password): void
     {
         $this->password = $password;
+    }
+
+    public function getLogs(): array
+    {
+        return $this->logs;
+    }
+
+    public function setLogs(array $logs): void
+    {
+        $this->logs = $logs;
+    }
+
+    public function addLog(Logs $log): void
+    {
+        $this->logs[] = $log;
     }
 
     public static function newUser(

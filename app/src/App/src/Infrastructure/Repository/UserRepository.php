@@ -5,43 +5,54 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Value\Uuid;
+use App\Domain\Value\Email;
 use App\Domain\Documents\User;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use App\Infrastructure\Repository\Exception\UserRepositoryException;
+use Doctrine\Common\Persistence\ObjectManager;
+use App\Domain\Value\ValueObjectsInterface;
 
 final class UserRepository implements UserRepositoryInterface
 {
     /**
-     * @var DocumentManager
+     * @var ObjectManager
      */
-    private $document;
+    private $manager;
 
-    public function __construct(DocumentManager $document)
+    /**
+     * { @inheritdoc }
+     */
+    public function __construct(ObjectManager $manager)
     {
-        $this->document = $document;
+        $this->manager = $manager;
     }
 
+    /**
+     * { @inheritdoc }
+     */
     public function create(User $user): void
     {
-        $this->document->persist($user);
-        $this->document->flush();
+        $this->manager->persist($user);
+        $this->manager->flush();
     }
 
-    public function findOneById(Uuid $uuid): ?User
-    {
-        return $this->findOne(["_id" => $uuid]);
-    }
-
-    public function findOneByEmail(Email $email): ?User
-    {
-        return $this->findOne(["email" => $email]);
-    }
-
+    /**
+     * { @inheritdoc }
+     * @throws UserRepositoryException
+     */
     public function findOne(array $field = null): ?User
     {
-        // throw exception case count array > 1
-        return $this->document->createQueryBuilder(User::class)
-            ->find(key($field))
-            ->equals($field[0])
+        if (1 !== count($field)) {
+            throw UserRepositoryException::fromAmountValues($field);
+        }
+
+        $key = key($field);
+        
+        if ( ! $field[$key] instanceof ValueObjectsInterface) {
+            throw UserRepositoryException::valueObjectInterface($field[$key]);
+        }
+
+        return $this->manager->createQueryBuilder(User::class)
+            ->field($key)->equals($field[$key]->__toString())
             ->getQuery()
             ->getSingleResult();
     }

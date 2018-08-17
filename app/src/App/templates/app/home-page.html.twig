@@ -7,26 +7,26 @@
 {% endblock %}
 
 {% block content %}
-    <div id="container" class="container-flex">
+    <div class="container-flex">
         <p id="title-home" class="display-1">
             Login with <span class="facebook-color">Facebook</span> API
         </p>
-        <div id="buttons">
+        <div class="box-btn-menu">
             <div>
                 <button type="button" data-toggle="modal" data-target="#register" title="Register now!" class="btn add">
-                    <i class="fas fa-user-plus"></i>
+                    <i class="fas fa-user-plus fa-lg"></i>
                     <span class="text-btn">Register</span>
                 </button>
             </div>
             <div>
                 <button type="button" data-toggle="modal" data-target="#login" title="Login now!" class="btn login">
-                    <i class="fas fa-sign-in-alt"></i>
+                    <i class="fas fa-sign-in-alt fa-lg"></i>
                     <span class="text-btn">Login</span>
                 </button>
             </div>
             <div>
                 <button type="button" title="Login with facebook" class="btn facebook">
-                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-facebook-f fa-lg"></i>
                     <span class="text-btn">Login Facebook</span>
                 </button>
             </div>
@@ -45,7 +45,7 @@
                         Current passwords do not match. Check please
                     </div>
                     <div class="modal-body">
-                        <form id="form-register" method="post" action="{{ path('register.post') }}">
+                        <form id="form-register">
                             <div class="form-group">
                                 <label for="name" class="col-form-label">Name</label>
                                 <input type="text" class="form-control ipt-form-register" id="name" placeholder="John Badge" name="name" required autofocus>
@@ -82,12 +82,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="form-login">
-                            <div class="form-group" method="post" action="{{ path('login.post') }}">
-                                <input type="email" class="form-control ipt-form-login" id="email-login" placeholder="example@email.com" required autofocus>
+                        <form id="form-login" method="post" action="{{ path('login.post') }}">
+                            <div class="form-group">
+                                <input type="email" class="form-control ipt-form-login" id="email-login" name="email" placeholder="example@email.com" required autofocus>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control ipt-form-login" id="password-login" placeholder="Your password" minlength="5" maxlength="12" required>
+                                <input type="password" class="form-control ipt-form-login" id="password-login" name="password" placeholder="Your password" minlength="5" maxlength="12" required>
                             </div>
                         </form>
                     </div>

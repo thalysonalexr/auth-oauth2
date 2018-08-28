@@ -64,7 +64,7 @@ Este modelo utiliza do php7 rodando em cima de um container com nginx linkado ao
 
 * Thalyson Alexandre Rodrigues de Sousa
     - [Github](https://github.com/thalysonrodrigues)
-    - Email: *tha.motog@gmailcom*
+    - Email: *tha.motog@gmail.com*
 
 ## Licença
 

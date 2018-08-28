@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Value\Exception;
 
+use App\Exception\ExceptionInterface;
+
 final class WrongPasswordException extends \InvalidArgumentException implements ExceptionInterface
 {
     public static function fromWrongPassword(string $password): self

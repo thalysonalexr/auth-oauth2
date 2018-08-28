@@ -49,7 +49,11 @@ final class User implements \JsonSerializable
 
     public function getId(): Uuid
     {
-        return $this->uuid;
+        if ($this->uuid instanceof Uuid) {
+            return $this->uuid;
+        }
+
+        return Uuid::fromString($this->uuid);
     }
 
     public function getName(): string
@@ -64,7 +68,11 @@ final class User implements \JsonSerializable
 
     public function getEmail(): Email
     {
-        return $this->email;
+        if ($this->email instanceof Email) {
+            return $this->email;
+        }
+
+        return Email::fromString($this->email);
     }
 
     public function setEmail(Email $email): void
@@ -74,7 +82,11 @@ final class User implements \JsonSerializable
 
     public function getPassword(): Password
     {
-        return $this->password;
+        if ($this->password instanceof Password) {
+            return $this->password;
+        }
+
+        return Password::fromString($this->password);
     }
 
     public function setPassword(Password $password): void

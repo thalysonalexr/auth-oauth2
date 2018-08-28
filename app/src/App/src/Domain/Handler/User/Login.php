@@ -67,8 +67,8 @@ final class Login implements MiddlewareInterface
             'exp' => $future->getTimestamp(),
             'jti' => (new Base62)->encode(random_bytes(16)),
             'data' => [
-                'id' => (string) $user->getId(),
-                'email' => $user->getEmail()
+                'id' => (string) $user->getId()->__toString(),
+                'email' => $user->getEmail()->__toString()
             ]
         ];
 

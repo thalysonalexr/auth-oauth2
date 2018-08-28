@@ -39,6 +39,11 @@ final class Email implements \JsonSerializable, ValueObjectsInterface
         return filter_var($email, FILTER_SANITIZE_EMAIL);
     }
 
+    public static function fromString(string $email): self
+    {
+        return new self($email);
+    }
+
     public static function newEmail(string $email): self
     {
         return new self(self::validate($email));

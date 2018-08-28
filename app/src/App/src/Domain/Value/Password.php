@@ -53,12 +53,18 @@ final class Password implements \JsonSerializable, ValueObjectsInterface
         return password_hash($password, PASSWORD_BCRYPT, self::OPTIONS);
     }
 
-    public static function verify(Password $password, string $hash): bool
+    public static function verify(string $password, Password $hash): bool
     {
-        if ( ! password_verify($password->getPassword(), $hash)) {
+        if ( ! password_verify($password, $hash->getPassword())) {
             throw WrongPasswordException::fromWrongPassword($password);
         }
+
         return true;
+    }
+
+    public static function fromString(string $password): self
+    {
+        return new self($password);
     }
 
     public static function newPassword(string $password): self

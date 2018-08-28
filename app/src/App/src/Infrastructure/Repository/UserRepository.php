@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Value\Uuid;
-use App\Domain\Value\Email;
 use App\Domain\Documents\User;
 use App\Infrastructure\Repository\Exception\UserRepositoryException;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -46,7 +44,7 @@ final class UserRepository implements UserRepositoryInterface
         }
 
         $key = key($field);
-        
+
         if ( ! $field[$key] instanceof ValueObjectsInterface) {
             throw UserRepositoryException::valueObjectInterface($field[$key]);
         }
@@ -55,5 +53,15 @@ final class UserRepository implements UserRepositoryInterface
             ->field($key)->equals($field[$key]->__toString())
             ->getQuery()
             ->getSingleResult();
+    }
+
+    public static function fromNativeData(
+        string $uuid,
+        string $name,
+        string $email,
+        string $password
+    ): User
+    {
+        return User::newUser($uuid, $name, $email, $password);
     }
 }

@@ -9,9 +9,9 @@ use App\Domain\Service\UserServiceInterface;
 
 final class UserHandlerFactory
 {
-    public function __invoke(ContainerInterface $container, string $name)
+    public function __invoke(ContainerInterface $container, string $className)
     {
-        return new $name(
+        return new $className(
             $container->get(UserServiceInterface::class)
         );
     }

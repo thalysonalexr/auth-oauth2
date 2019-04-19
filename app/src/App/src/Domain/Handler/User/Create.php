@@ -36,13 +36,13 @@ final class Create implements MiddlewareInterface
             );
         } catch (UserEmailExistsException $e) {
             return new JsonResponse([
-                'code' => '400',
+                'code' => 400,
                 'message' => $e->getMessage()
             ], 400);
         }
 
         return new JsonResponse([
-            'success' => $$success
+            'success' => $success
         ], 201);
     }
 }

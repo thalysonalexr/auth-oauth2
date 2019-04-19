@@ -8,6 +8,7 @@ return [
             'default' => [
                 'db_name' => 'login_facebook',
                 'db_host' => 'mongodb',
+                'db_port' => 27017,
                 'proxies_dir' => '/tmp/Proxies',
                 'proxies_namespace' => 'Proxies',
                 'hydrators_dir' => '/tmp/Hydrators',

@@ -28,7 +28,12 @@ final class UserService implements UserServiceInterface
     {
         try {
             $this->repository->create(
-                User::newUser(u::newUuid(), $name, e::newEmail($email), p::newPassword($password))
+                User::newUser(
+                    u::newUuid(),
+                    $name,
+                    e::newEmail($email),
+                    p::newPassword($password)
+                )
             );
         } catch(\Exception $e) {
             throw UserEmailExistsException::fromUserEmail($email);
@@ -39,7 +44,9 @@ final class UserService implements UserServiceInterface
 
     public function getByEmail(string $email): ?User
     {
-        $user = $this->repository->findOne(['email' => e::newEmail($email)]);
+        $user = $this->repository->findOne([
+            'email' => e::newEmail($email)
+        ]);
 
         if ( ! $user instanceof User) {
             throw UserNotFoundException::fromUserEmail($email);

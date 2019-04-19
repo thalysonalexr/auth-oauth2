@@ -16,7 +16,7 @@ final class DocumentManagerFactory
     {
         $config = $container->get('config')['doctrine']['connection']['default'];
 
-        $connection = new Connection("mongodb://" . $config['db_host'] . ":27017");
+        $connection = new Connection("mongodb://" . $config['db_host'] . ":" . $config['db_port']);
 
         $odmConfig = new Configuration();
         $odmConfig->setDefaultDB($config['db_name']);

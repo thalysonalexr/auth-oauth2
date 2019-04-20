@@ -9,6 +9,9 @@ return [
         'invokables' => [
         ],
         'factories'  => [
+            // \Middlewares\HttpAuthentication::class => \App\Core\Middleware\JwtAuthenticationFactory::class,
+            \App\Domain\Middleware\Authentication::class => \App\Core\Middleware\AuthenticationFactory::class,
+            \Middlewares\AccessLog::class => \App\Core\Middleware\AccessLogFactory::class,
         ],
     ],
 ];

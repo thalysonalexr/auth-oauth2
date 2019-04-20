@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace App\Handler\User\Factory;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Router\RouterInterface;
+use App\Handler\User\ProfileHandler;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class HomePageHandlerFactory
+class ProfileHandlerFactory
 {
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
@@ -17,6 +17,6 @@ class HomePageHandlerFactory
             ? $container->get(TemplateRendererInterface::class)
             : null;
 
-        return new HomePageHandler($template);
+        return new ProfileHandler($template);
     }
 }

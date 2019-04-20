@@ -1,6 +1,8 @@
 #title-home{
     font-size: 1.6em;
-    font-family: 'Dosis', sans-serif;
+    /*font-family: 'Noto Sans', sans-serif;*/
+    font-family: 'Rubik', sans-serif;
+    
     color: #dbdbdb;
     text-shadow: 1px 1px 2px #909090;
 }
@@ -20,7 +22,7 @@
     background-color: rgba(19, 35, 47, 0.9);
     border: 1px solid #fcfcfc;
     font-size: 1em;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-weight: 400;    
     display: flex;
     align-items: center;
@@ -42,6 +44,7 @@
 .box-btn-menu{
     display: none;
     flex-direction: column;
+    justify-content: center;
 }
 
 .box-btn-menu > div{ margin: 2%; }
@@ -53,7 +56,7 @@
 
 .modal-title, .col-form-label{
     color: #fcfcfc;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-weight: 200;
 }
 
@@ -65,7 +68,7 @@ input.form-control[type="text"],
 input.form-control[type="email"],
 input.form-control[type="password"]{
     padding: 4% 2%;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     font-weight: 200;
     color: #dddd;
     font-style: italic;

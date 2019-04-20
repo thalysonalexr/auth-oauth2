@@ -23,6 +23,10 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->pipe(ErrorHandler::class);
     $app->pipe(ServerUrlMiddleware::class);
     $app->pipe(BodyParamsMiddleware::class);
+    $app->pipe((new \Middlewares\ClientIp())->attribute('_ip'));
+    $app->pipe(\Middlewares\AccessLog::class);
+    $app->pipe(\Zend\Expressive\Session\SessionMiddleware::class);
+    $app->pipe(\Zend\Expressive\Flash\FlashMessageMiddleware::class);
     $app->pipe(RouteMiddleware::class);
     $app->pipe(ImplicitHeadMiddleware::class);
     $app->pipe(ImplicitOptionsMiddleware::class);

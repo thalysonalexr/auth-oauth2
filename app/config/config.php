@@ -13,6 +13,9 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \Zend\Expressive\Session\Ext\ConfigProvider::class,
+    \Zend\Expressive\Flash\ConfigProvider::class,
+    \Zend\Expressive\Session\ConfigProvider::class,
     \Zend\Expressive\Twig\ConfigProvider::class,
     \Zend\Expressive\Router\FastRouteRouter\ConfigProvider::class,
     \Zend\HttpHandlerRunner\ConfigProvider::class,

@@ -113,6 +113,7 @@ $(document).ready(f => {
                 $('#login').modal('hide')
                 // store the token in sessionStorage
                 sessionStorage.setItem('access_token', JSON.stringify(response))
+                window.location.href = '/profile'
             }
         })
     })

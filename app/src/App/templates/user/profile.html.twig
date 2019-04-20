@@ -1,0 +1,11 @@
+{% extends '@layout/default.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+    {% if logged is defined and logged == true %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+{% endblock %}

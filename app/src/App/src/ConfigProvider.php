@@ -37,7 +37,8 @@ class ConfigProvider
             ],
             'factories'  => [
                 // homepage
-                Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+                \App\Handler\HomePageHandler::class => \App\Handler\HomePageHandlerFactory::class,
+                \App\Handler\User\ProfileHandler::class => \App\Handler\User\Factory\ProfileHandlerFactory::class,
 
                 // connection
                 \Doctrine\ODM\MongoDB\DocumentManager::class => \App\Core\Factory\DocumentManagerFactory::class,
@@ -66,6 +67,7 @@ class ConfigProvider
         return [
             'paths' => [
                 'app'    => [__DIR__ . '/../templates/app'],
+                'user'   => [__DIR__ . '/../templates/user'],
                 'error'  => [__DIR__ . '/../templates/error'],
                 'layout' => [__DIR__ . '/../templates/layout'],
             ],

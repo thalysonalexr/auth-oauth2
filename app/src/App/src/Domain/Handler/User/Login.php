@@ -16,24 +16,37 @@ use App\Domain\Value\Exception\WrongPasswordException;
 use Tuupola\Base62;
 use Firebase\JWT\JWT;
 use Zend\Diactoros\Response\JsonResponse;
+use Zend\Expressive\Flash\FlashMessageMiddleware;
 
 use function random_bytes;
 
 final class Login implements MiddlewareInterface
 {
     /**
+     * @var string
+     */
+    const LOGGED = 'logged';
+
+    /**
      * @var UsersServiceInterface
      */
     private $usersService;
+
     /**
      * @var string
      */
     private $jwtSecret;
 
-    public function __construct(UserServiceInterface $usersService, string $jwtSecret)
+    /**
+     * @var array
+     */
+    private $session;
+
+    public function __construct(UserServiceInterface $usersService, string $jwtSecret, array $session)
     {
         $this->usersService = $usersService;
         $this->jwtSecret = $jwtSecret;
+        $this->session = $session;
     }
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
@@ -72,6 +85,14 @@ final class Login implements MiddlewareInterface
         ];
 
         $token = JWT::encode($payload, $this->jwtSecret, 'HS256');
+
+        setcookie($this->session['cookie_name'], $token, time() + $this->session['expires_time'], '/');
+
+        $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
+        $flashMessages->flash(self::LOGGED, [
+            'logged' => true,
+            'message' => 'Login successfully, you are on your profile!'
+        ]);
 
         return new JsonResponse([
             'token' => $token,

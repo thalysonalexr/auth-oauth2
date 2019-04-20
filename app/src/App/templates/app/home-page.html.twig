@@ -41,9 +41,7 @@
                             <span class="close" aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="alert alert-danger show-alert-confirm-pass" role="alert">
-                        Current passwords do not match. Check please
-                    </div>
+                    <div class="alert alert-danger show-alert-register" role="alert"></div>
                     <div class="modal-body">
                         <form id="form-register">
                             <div class="form-group">
@@ -81,6 +79,7 @@
                             <span class="close" aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <div class="alert alert-danger show-alert-login" role="alert"></div>
                     <div class="modal-body">
                         <form id="form-login" method="post" action="{{ path('login.post') }}">
                             <div class="form-group">

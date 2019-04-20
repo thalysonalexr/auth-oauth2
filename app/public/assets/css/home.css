@@ -76,7 +76,7 @@ input.form-control[type="password"]{
     border: 1px solid #909090!important;
 }
 
-.show-alert-confirm-pass{
+.show-alert-login, .show-alert-register{
     display: none;
     margin: 2%;
 }

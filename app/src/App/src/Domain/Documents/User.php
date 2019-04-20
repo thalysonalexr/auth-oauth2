@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\Documents;
 
 use App\Domain\Value\Uuid;
+use App\Domain\Value\StringValue;
 use App\Domain\Value\Email;
 use App\Domain\Value\Password;
+use App\Domain\Value\Date;
 use App\Domain\Documents\Logs;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
@@ -25,26 +27,31 @@ final class User implements \JsonSerializable
     /** @ODM\Field(type="string") */
     private $name;
 
-    /** @ODM\Field(type="string") @ODM\UniqueIndex(order="asc") */
+    /** @ODM\Field(type="string") @ODM\Index */
     private $email;
 
     /** @ODM\Field(type="string") */
     private $password;
+
+    /** @ODM\Field(type="date") */
+    private $createdAt;
 
     /** @ODM\ReferenceMany(targetDocument="Logs", cascade="all") */
     private $logs = array();
 
     private function __construct(
         Uuid $uuid,
-        string $name,
+        StringValue $name,
         Email $email,
-        Password $password
+        Password $password,
+        \MongoDate $createdAt
     )
     {
         $this->uuid = $uuid;
         $this->name = $name;
         $this->email = $email;
         $this->password = $password;
+        $this->createdAt = $createdAt;
     }
 
     public function getId(): Uuid
@@ -56,12 +63,16 @@ final class User implements \JsonSerializable
         return Uuid::fromString($this->uuid);
     }
 
-    public function getName(): string
+    public function getName(): StringValue
     {
-        return $this->name;
+        if ($this->name instanceof StringValue) {
+            return $this->name;
+        }
+
+        return StringValue::fromString('name', $this->name);
     }
 
-    public function setName(string $name): void
+    public function setName(StringValue $name): void
     {
         $this->name = $name;
     }
@@ -94,6 +105,19 @@ final class User implements \JsonSerializable
         $this->password = $password;
     }
 
+    public function getCreatedAt(): Date
+    {
+        if ($this->createdAt instanceof Date) {
+            return $this->createdAt;
+        }
+
+        if ($this->createdAt instanceof \DateTime) {
+            return Date::fromDateTime($this->createdAt);
+        }
+
+        return Date::fromString($this->createdAt);
+    }
+
     public function getLogs(): array
     {
         return $this->logs;
@@ -111,12 +135,12 @@ final class User implements \JsonSerializable
 
     public static function newUser(
         Uuid $uuid,
-        string $name,
+        StringValue $name,
         Email $email,
         Password $password
     ): self
     {
-        return new self($uuid, $name, $email, $password);
+        return new self($uuid, $name, $email, $password, Date::newDate()->convertToMongoDate());
     }
 
     public function jsonSerialize(): array
@@ -125,7 +149,8 @@ final class User implements \JsonSerializable
             'uuid' => $this->uuid,
             'name' => $this->name,
             'email' => $this->email,
-            'password' => $this->password
+            'password' => $this->password,
+            'created_at' => $this->createdAt
         ];
     }
 }

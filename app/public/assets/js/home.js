@@ -23,7 +23,7 @@ $(document).ready(f => {
         })
     }
 
-    let chackEmptyFieldsFormRegister = () => {
+    let checkEmptyFieldsFormRegister = () => {
         // check empty fields
         $('input.ipt-form-register').keyup((el)  => {
             // check all inputs and enable button submit in register form
@@ -59,11 +59,19 @@ $(document).ready(f => {
         // verify password equals cofirm
         $('#conf-password').focusout(f => {
             if ( ! veriyPassword()) {
-                $('.show-alert-confirm-pass').css({"display": "block"})
+                $('.show-alert-register').text('Current passwords do not match. Check please')
+                $('.show-alert-register').slideDown(200)
             } else {
-                $('.show-alert-confirm-pass').css({"display": "none"})
+                $('.show-alert-register').slideUp(200)
             }
         })
+    }
+
+    let clearAllFields = () => {
+        $('#name').val('');
+        $('#email').val('');
+        $('#password').val('');
+        $('#conf-password').val('');
     }
 
     $('#btn-submit-register').click((event) => {
@@ -74,18 +82,18 @@ $(document).ready(f => {
             data: $('#form-register').serialize(),
             type: 'post',
             error: (err) => {
-                console.log(err)
+                $('.show-alert-register').text(`${err.responseJSON.code} - ${err.responseJSON.message}`)
+                $('.show-alert-register').slideDown(200)
+                console.log('fail register!')
             },
-            success: (data) => {
-                if (data.success) {
-                    $('#register').removeClass('show')
-                    $('#register').css({"display": "none"})
+            success: (response) => {
+                if (response.success) {
+                    $('.show-alert-register').slideUp(200)
+                    $('#register').modal('hide')
+                    clearAllFields();
                 }
+                console.log(response)
             },
-        }).done(f => {
-            console.log('ok, registered!')
-        }).fail(f => {
-            console.log('fail register!')
         })
     })
 
@@ -97,21 +105,21 @@ $(document).ready(f => {
             data: $('#form-login').serialize(),
             type: 'post',
             error: (err) => {
-                console.log(err)
+                $('.show-alert-login').text(`${err.responseJSON.code} - ${err.responseJSON.message}`)
+                $('.show-alert-login').slideDown()
             },
-            success: (data) => {
-                console.log(data)
+            success: (response) => {
+                $('.show-alert-login').slideUp()
+                $('#login').modal('hide')
+                // store the token in sessionStorage
+                sessionStorage.setItem('access_token', JSON.stringify(response))
             }
-        }).done(f => {
-            console.log('ok, logged!')
-        }).fail(f => {
-            console.log('fail!')
         })
     })
 
     homeEffects()
     changeColorInputs()
-    chackEmptyFieldsFormRegister()
+    checkEmptyFieldsFormRegister()
     checkEmptyFieldsFormLogin()
     verifyPasswordEvent()
 })

@@ -59,7 +59,6 @@ final class Login implements MiddlewareInterface
         }
 
         // log success
-
         $future = new \DateTime('+60 minutes');
 
         $payload = [

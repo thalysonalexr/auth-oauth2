@@ -14,7 +14,7 @@ final class UserAuthHandlerFactory
     {
         return new Login(
             $container->get(UserServiceInterface::class),
-            $container->get('config')['jwt']['secret']
+            $container->get('config')['auth']['jwt']['secret']
         );
     }
 }

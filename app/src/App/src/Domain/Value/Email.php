@@ -57,6 +57,7 @@ final class Email implements \JsonSerializable, ValueObjectsInterface
     public function jsonSerialize(): array
     {
         return [
+            '__self' => self::class,
             'email' => $this->email
         ];
     }

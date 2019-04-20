@@ -30,7 +30,7 @@ final class UserRepository implements UserRepositoryInterface
     public function create(User $user): void
     {
         $this->manager->persist($user);
-        $this->manager->flush();
+        $this->manager->flush(null, ['safe' => true]);
     }
 
     /**
@@ -53,15 +53,5 @@ final class UserRepository implements UserRepositoryInterface
             ->field($key)->equals($field[$key]->__toString())
             ->getQuery()
             ->getSingleResult();
-    }
-
-    public static function fromNativeData(
-        string $uuid,
-        string $name,
-        string $email,
-        string $password
-    ): User
-    {
-        return User::newUser($uuid, $name, $email, $password);
     }
 }

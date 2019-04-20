@@ -44,7 +44,8 @@ final class Password implements \JsonSerializable, ValueObjectsInterface
     public function jsonSerialize(): array
     {
         return [
-            'password' => $password
+            '__self' => self::class,
+            'password' => $this->password
         ];
     }
 

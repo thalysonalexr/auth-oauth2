@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Service\Exception;
 
+use App\Exception\ExceptionInterface;
+
 final class UserEmailExistsException extends \DomainException implements ExceptionInterface
 {
     public static function fromUserEmail(string $email): self

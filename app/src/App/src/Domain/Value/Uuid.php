@@ -7,7 +7,7 @@ namespace App\Domain\Value;
 use Ramsey\Uuid\Uuid as GeneratorUuid;
 use Ramsey\Uuid\UuidInterface;
 
-final class Uuid implements ValueObjectsInterface
+final class Uuid implements \JsonSerializable, ValueObjectsInterface
 {
     /**
      * @var UuidInterface
@@ -32,5 +32,13 @@ final class Uuid implements ValueObjectsInterface
     public function __toString(): string
     {
         return $this->uuid->toString();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            '__self' => self::class,
+            'uuid' => $this->uuid->toString()
+        ];
     }
 }

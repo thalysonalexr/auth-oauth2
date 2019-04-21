@@ -39,8 +39,8 @@ final class Logs implements \JsonSerializable
         Uuid $uuid,
         Date $signinDt,
         ?Date $signoutDt,
-        string $browser,
-        string $ip,
+        StringValue $browser,
+        StringValue $ip,
         bool $status
     )
     {
@@ -54,12 +54,24 @@ final class Logs implements \JsonSerializable
 
     public function getId(): Uuid
     {
-        return $this->uuid;
+        if ($this->uuid instanceof Uuid) {
+            return $this->uuid;
+        }
+
+        return Uuid::fromString($this->uuid);
     }
 
     public function getSigninDt(): Date
     {
-        return $this->signinDt;
+        if ($this->signinDt instanceof Date) {
+            return $this->signinDt;
+        }
+
+        if ($this->signinDt instanceof \DateTime) {
+            return Date::fromDateTime($this->signinDt);
+        }
+
+        return Date::fromString($this->signinDt);
     }
 
     public function setSigninDt(Date $signinDt): void
@@ -69,7 +81,15 @@ final class Logs implements \JsonSerializable
 
     public function getSignoutDt(): ?Date
     {
-        return $this->signoutDt;
+        if ($this->signoutDt instanceof Date) {
+            return $this->signoutDt;
+        }
+
+        if ($this->signoutDt instanceof \DateTime) {
+            return Date::fromDateTime($this->signoutDt);
+        }
+
+        return Date::fromString($this->signoutDt);
     }
 
     public function setSignoutDt(?Date $signoutDt): void
@@ -77,22 +97,30 @@ final class Logs implements \JsonSerializable
         $this->signoutDt = $signoutDt;
     }
 
-    public function getBrowser(): string
+    public function getBrowser(): StringValue
     {
-        return $this->browser;
+        if ($this->browser instanceof StringValue) {
+            return $this->browser;
+        }
+        
+        return StringValue::fromString('browser', $this->browser);
     }
 
-    public function setBrowser(string $browser): void
+    public function setBrowser(StringValue $browser): void
     {
         $this->browser = $browser;
     }
 
-    public function getIp(): string
+    public function getIp(): StringValue
     {
-        return $this->ip;
+        if ($this->ip instanceof StringValue) {
+            return $this->ip;
+        }
+
+        return StringValue::fromString('ip', $this->ip);
     }
 
-    public function setIp(string $ip): void
+    public function setIp(StringValue $ip): void
     {
         $this->ip = $ip;
     }
@@ -108,8 +136,8 @@ final class Logs implements \JsonSerializable
     }
 
     public static function newLogin(
-        string $browser,
-        string $ip,
+        StringValue $browser,
+        StringValue $ip,
         bool $status
     ): self
     {

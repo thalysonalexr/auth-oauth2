@@ -10,9 +10,10 @@ final class InvalidStringValueException extends \InvalidArgumentException implem
 {
     public static function invalidParams($params): self
     {
-        return new self(sprintf("Poorly formed parameters or params is not string type. Params: %s", (string) array_map($params, 
-            function ($index, $value) {
-                return "$index => $value";
-            })));
+        return new self(sprintf("Poorly formed parameters or params is not string type. Params: { %s }", (string)
+            implode(', ', array_map(function ($index) use ($params) {
+                return "$index => " . $params[$index];
+            }, array_keys($params)))
+        ));
     }
 }

@@ -5,11 +5,20 @@ declare(strict_types=1);
 namespace App\Domain\Documents;
 
 use App\Domain\Value\Uuid;
+use App\Domain\Value\Date;
 use App\Domain\Value\StringValue;
 use App\Domain\Value\Email;
 use App\Domain\Value\Password;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-final class UserOauth extends User implements \JsonSerializable
+/**
+ * @ODM\Document(
+ *     db="login_oauth2",
+ *     collection="users_oauth",
+ *     readOnly=true
+ * )
+ */
+final class UserOauth extends User
 {
     /** @ODM\Field(type="string") */
     private $userId;
@@ -21,7 +30,6 @@ final class UserOauth extends User implements \JsonSerializable
         Uuid $uuid,
         StringValue $name,
         Email $email,
-        Password $password,
         \MongoDate $createdAt,
         StringValue $userId,
         StringValue $provider
@@ -29,7 +37,7 @@ final class UserOauth extends User implements \JsonSerializable
     {
         $this->userId = $userId;
         $this->provider = $provider;
-        parent::__construct($uuid, $name, $email, $password, $createdAt);
+        parent::__construct($uuid, $name, $email, null, $createdAt);
     }
 
     public function getUserId(): StringValue
@@ -58,6 +66,17 @@ final class UserOauth extends User implements \JsonSerializable
     public function setProvider(StringValue $provider): void
     {
         $this->provider = $provider;
+    }
+
+    public static function newUserOauth(
+        Uuid $uuid,
+        StringValue $name,
+        Email $email,
+        StringValue $userId,
+        StringValue $provider
+    ): self
+    {
+        return new self($uuid, $name, $email, Date::newDate()->convertToMongoDate(), $userId, $provider);
     }
 
     public function jsonSerialize(): array

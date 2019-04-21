@@ -9,9 +9,12 @@ use App\Domain\Value\StringValue as s;
 use App\Domain\Value\Email as e;
 use App\Domain\Value\Password as p;
 use App\Domain\Documents\User;
+use App\Domain\Documents\UserOauth;
+use App\Domain\Documents\UserInterface;
 use App\Domain\Documents\Logs;
 use App\Domain\Service\Exception\UserNotFoundException;
 use App\Domain\Service\Exception\UserEmailExistsException;
+use App\Domain\Service\Exception\UserOauthExistsException;
 use App\Infrastructure\Repository\UserRepositoryInterface;
 
 final class UserService implements UserServiceInterface
@@ -26,7 +29,7 @@ final class UserService implements UserServiceInterface
         $this->repository = $repository;
     }
 
-    public function create(string $name, string $email, string $password): ?User
+    public function create(string $name, string $email, string $password): ?UserInterface
     {
         try {
             // verify if exists email in collections users
@@ -50,20 +53,37 @@ final class UserService implements UserServiceInterface
         return $user;
     }
 
-    public function getByEmail(string $email): ?User
+    public function getByEmail(string $email, string $className): ?UserInterface
     {
         $user = $this->repository->findOne([
             'email' => e::newEmail($email)
-        ]);
+        ], $className);
 
-        if ( ! $user instanceof User) {
+        if ( ! $user instanceof UserInterface) {
             throw UserNotFoundException::fromUserEmail($email);
         }
 
         return $user;
     }
 
-    public function createLog(User $user, string $browser, string $ip, bool $status): ?Logs
+    public function getByOauth(string $provider, string $userId, string $email): ?UserInterface
+    {
+        $values = [
+            'provider' => $provider,
+            'userId' => $userId,
+            'email' => $email
+        ];
+
+        $user = $this->repository->whereEquals($values, UserOauth::class);
+
+        if ( ! $user instanceof UserOauth) {
+            throw UserNotFoundException::fromAmountValues($values);
+        }
+
+        return $user;
+    }
+
+    public function createLog(UserInterface $user, string $browser, string $ip, bool $status): ?Logs
     {
         $log = Logs::newLog(
             u::newUuid(),
@@ -75,5 +95,33 @@ final class UserService implements UserServiceInterface
         $this->repository->createLog($user, $log);
 
         return $log;
+    }
+
+    public function createOauth(string $provider, string $userId, string $name, string $email, ?string $picture): ?UserInterface
+    {
+        // verify if exists provider | user_id | email in usersoath collection to don't create register
+        try {
+            $user = $this->getByOauth($provider, $userId, $email);
+
+            if ($user instanceof UserOauth) {
+                throw UserOauthExistsException::fromAmountValues([
+                    'provider' => $provider,
+                    'user_id' => $userId,
+                    'email' => $email
+                ]);
+            }
+        } catch (UserNotFoundException $e) {
+            $user = UserOauth::newUserOauth(
+                u::newUuid(),
+                s::newString(['name' => $name]),
+                e::newEmail($email),
+                s::newString(['user_id' => $userId]),
+                s::newString(['provider' => $provider])
+            );
+
+            $this->repository->create($user);
+        }
+
+        return $user;
     }
 }

@@ -6,7 +6,7 @@ return [
     'doctrine' => [
         'connection' => [
             'default' => [
-                'db_name' => 'login_facebook',
+                'db_name' => 'login_oauth2',
                 'db_host' => 'mongodb',
                 'db_port' => 27017,
                 'proxies_dir' => '/tmp/Proxies',

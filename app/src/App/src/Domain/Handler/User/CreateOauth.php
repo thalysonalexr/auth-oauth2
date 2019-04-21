@@ -9,9 +9,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use App\Domain\Service\UserServiceInterface;
-use App\Domain\Service\Exception\UserEmailExistsException;
-use Zend\Diactoros\Response\JsonResponse;
-use App\Domain\Documents\User;
+use App\Domain\Service\Exception\UserOauthExistsException;
+use Zend\Diactoros\Response\RedirectResponse;
+use App\Domain\Documents\UserOauth;
+use Tuupola\Base62;
+use Firebase\JWT\JWT;
 
 final class CreateOauth implements MiddlewareInterface
 {
@@ -20,14 +22,33 @@ final class CreateOauth implements MiddlewareInterface
      */
     private $usersService;
 
-    public function __construct(UserServiceInterface $usersService)
+    /**
+     * @var string
+     */
+    private $jwtSecret;
+
+    /**
+     * @var array
+     */
+    private $jwtSession;
+
+    public function __construct(
+        UserServiceInterface $usersService,
+        string $jwtSecret,
+        array $jwtSession
+    )
     {
         $this->usersService = $usersService;
+        $this->jwtSecret = $jwtSecret;
+        $this->jwtSession = $jwtSession;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
         $body = $request->getParsedBody();
+
+        $br = $request->getServerParams()['HTTP_USER_AGENT'];
+        $ip = $request->getAttribute('_ip');
 
         try {
             $user = $this->usersService->createOauth(
@@ -37,16 +58,35 @@ final class CreateOauth implements MiddlewareInterface
                 $body['email'],
                 isset($body['picture']) ? $body['picture']: null
             );
-        } catch (UserEmailExistsException $e) {
-            return new JsonResponse([
-                'code' => 400,
-                'message' => $e->getMessage()
-            ], 400);
-        }
+        } catch (UserOauthExistsException $e) {
+            $user = $this->usersService->getByOauth(
+                $body['provider'],
+                $body['user_id'],
+                $body['email']
+            );
+        } finally {
+            // create a token to user and redirect to profile
+            $future = new \DateTime('+20 minutes');
 
-        return new JsonResponse([
-            'success' => $user instanceof User ? true: false,
-            'id' => $user->getId()
-        ], 201);
+            $payload = [
+                'iat' => (new \DateTime())->getTimestamp(),
+                'exp' => $future->getTimestamp(),
+                'jti' => (new Base62)->encode(random_bytes(16)),
+                'data' => [
+                    'id' => (string) $user->getId()->__toString(),
+                    'name' => $user->getName()->__toString(),
+                    'email' => $user->getEmail()->__toString()
+                ]
+            ];
+
+            $token = JWT::encode($payload, $this->jwtSecret, 'HS256');
+            $session = $request->getAttribute('session');
+
+            $session->set($this->jwtSession['session_name'], $token);
+            $session->set($this->jwtSession['session_exp'], $future);
+
+            $this->usersService->createLog($user, $br, $ip, true);
+            return new RedirectResponse('/profile', 301);
+        }
     }
 }

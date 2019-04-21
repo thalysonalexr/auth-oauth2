@@ -13,13 +13,14 @@ use App\Domain\Documents\Logs;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
+ * @ODM\MappedSuperclass
  * @ODM\Document(
- *     db="login_facebook",
+ *     db="login_oauth2",
  *     collection="users",
  *     readOnly=true
  * )
  */
-class User implements \JsonSerializable
+class User implements UserInterface
 {
     /** @ODM\Id(strategy="NONE", type="string") */
     private $uuid;
@@ -46,7 +47,7 @@ class User implements \JsonSerializable
         Uuid $uuid,
         StringValue $name,
         Email $email,
-        Password $password,
+        ?Password $password,
         \MongoDate $createdAt
     )
     {

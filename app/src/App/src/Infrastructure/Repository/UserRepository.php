@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Documents\User;
+use App\Domain\Documents\UserInterface;
 use App\Domain\Documents\Logs;
 use App\Infrastructure\Repository\Exception\UserRepositoryException;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -28,7 +29,7 @@ final class UserRepository implements UserRepositoryInterface
     /**
      * { @inheritdoc }
      */
-    public function create(User $user): void
+    public function create(UserInterface $user): void
     {
         $this->manager->persist($user);
         $this->manager->flush(null, ['safe' => true]);
@@ -38,7 +39,7 @@ final class UserRepository implements UserRepositoryInterface
      * { @inheritdoc }
      * @throws UserRepositoryException
      */
-    public function findOne(array $field = null): ?User
+    public function findOne(array $field, string $className): ?UserInterface
     {
         if (1 !== count($field)) {
             throw UserRepositoryException::fromAmountValues($field);
@@ -50,7 +51,7 @@ final class UserRepository implements UserRepositoryInterface
             throw UserRepositoryException::valueObjectInterface($field[$key]);
         }
 
-        return $this->manager->createQueryBuilder(User::class)
+        return $this->manager->createQueryBuilder($className)
             ->field($key)->equals($field[$key]->__toString())
             ->getQuery()
             ->getSingleResult();
@@ -59,7 +60,22 @@ final class UserRepository implements UserRepositoryInterface
     /**
      * { @inheritdoc }
      */
-    public function createLog(User $user, Logs $log): void
+    public function whereEquals(array $fields, string $className): ?UserInterface
+    {
+        $statement = implode(' && ', array_map(function ($index) use ($fields) {
+            return "this.$index == '" . $fields[$index] . "'";
+        }, array_keys($fields)));
+
+        return $this->manager->createQueryBuilder($className)
+            ->where("function () { return $statement; }")
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    /**
+     * { @inheritdoc }
+     */
+    public function createLog(UserInterface $user, Logs $log): void
     {
         $user->addLog($log);
         $this->manager->persist($user);

@@ -10,6 +10,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use League\OAuth2\Client\Provider\Facebook;
 use Zend\Diactoros\Response\RedirectResponse;
+use Zend\Diactoros\Response\JsonResponse;
 use App\Domain\Service\Facebook as Fb;
 
 final class LoginCallbackFacebook implements MiddlewareInterface
@@ -60,7 +61,7 @@ final class LoginCallbackFacebook implements MiddlewareInterface
         } catch (\Exception $e) {
             return new JsonResponse([
                 'code' => 404,
-                'message' => 'Failed to get a user details'
+                'message' => $e->getMessage()
             ], 401);
         }
     }

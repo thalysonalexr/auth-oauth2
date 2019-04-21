@@ -17,4 +17,13 @@ final class UserNotFoundException extends \RuntimeException implements Exception
     {
         return new self(sprintf('No user was found for email "%s"', (string) $email));
     }
+
+    public static function fromAmountValues(array $values): self
+    {
+        return new self(sprintf('No user was found for values { %s }', (string)
+            implode(', ', array_map(function ($index) use ($values) {
+                return "$index => " . $values[$index];
+            }, array_keys($values)))
+        ));
+    }
 }

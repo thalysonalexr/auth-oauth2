@@ -9,17 +9,20 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use App\Domain\Service\UserServiceInterface;
+use App\Domain\Handler\User\Login;
+use App\Domain\Documents\User;
+use App\Domain\Documents\UserOauth;
+use App\Domain\Service\Exception\UserNotFoundException;
 use Firebase\JWT\JWT;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Flash\FlashMessageMiddleware;
-use App\Domain\Handler\User\Login;
 
 final class Authentication implements MiddlewareInterface
 {
     /**
      * @var array
      */
-    private $session;
+    private $jwtSession;
 
     /**
      * @var string
@@ -32,34 +35,60 @@ final class Authentication implements MiddlewareInterface
     private $usersService;
 
     public function __construct(
-        array $session,
+        array $jwtSession,
         string $jwtSecret,
         UserServiceInterface $usersService)
     {
-        $this->session = $session;
+        $this->jwtSession = $jwtSession;
         $this->jwtSecret = $jwtSecret;
         $this->usersService = $usersService;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $cookies = $request->getCookieParams();
-        $cookie_name = $this->session['cookie_name'];
+        $session = $request->getAttribute('session');
+        $message = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
 
-        $token = isset($cookies[$cookie_name]) && ! empty($cookies[$cookie_name]) ? $cookies[$cookie_name] : null;
+        $jwt = $session->has($this->jwtSession['session_name']) ?
+               $session->get($this->jwtSession['session_name']) :
+               null;
 
         try {
-            $payload = JWT::decode($token, $this->jwtSecret, ['HS256'])->data;
-        } catch(\Exception $e) {
-            $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-            $flashMessages->flash(Login::LOGGED, [
+            $payload = JWT::decode($jwt, $this->jwtSecret, ['HS256'])->data;
+            
+            // verify user exists in database
+            try {
+                $user  = $this->usersService->getByEmail($payload->email, User::class);
+
+                if ($user instanceof User) {
+                    return $handler->handle($request->withAttribute(self::class, $payload));
+                }
+                
+            } catch (UserNotFoundException $e) {
+
+                try {
+                    $user = $this->usersService->getByEmail($payload->email, UserOauth::class);
+
+                    if ($user instanceof UserOauth) {
+                        return $handler->handle($request->withAttribute(self::class, $payload));
+                    }
+    
+                } catch (UserNotFoundException $e) {
+                    $message->flash(Login::LOGGED, [
+                        'logged' => false,
+                        'message' => 'User not found! Please, check information'
+                    ]);
+    
+                    return new RedirectResponse('/', 301);
+                }
+            }            
+        } catch (\Exception $e) {
+            $message->flash(Login::LOGGED, [
                 'logged' => false,
                 'message' => 'Please log in to continue'
             ]);
 
             return new RedirectResponse('/', 301);
         }
-
-        return $handler->handle($request->withAttribute(self::class, $payload));
     }
 }

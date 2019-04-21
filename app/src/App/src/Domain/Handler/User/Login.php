@@ -40,18 +40,19 @@ final class Login implements MiddlewareInterface
     /**
      * @var array
      */
-    private $session;
+    private $jwtSession;
 
     public function __construct(
         UserServiceInterface $usersService,
         string $jwtSecret,
-        array $session
+        array $jwtSession
     )
     {
         $this->usersService = $usersService;
         $this->jwtSecret = $jwtSecret;
-        $this->session = $session;
+        $this->jwtSession = $jwtSession;
     }
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
         $data = $request->getParsedBody();
@@ -60,7 +61,7 @@ final class Login implements MiddlewareInterface
         $ip = $request->getAttribute('_ip');
 
         try {
-            $user = $this->usersService->getByEmail($data['email']);
+            $user = $this->usersService->getByEmail($data['email'], User::class);
         } catch (UserNotFoundException $e) {
             return new JsonResponse([
                 'code' => '401',
@@ -79,8 +80,9 @@ final class Login implements MiddlewareInterface
         }
 
         // log success
-        $future = new \DateTime('+20 minutes');
         $this->usersService->createLog($user, $br, $ip, true);
+
+        $future = new \DateTime('+20 minutes');
 
         $payload = [
             'iat' => (new \DateTime())->getTimestamp(),
@@ -94,8 +96,10 @@ final class Login implements MiddlewareInterface
         ];
 
         $token = JWT::encode($payload, $this->jwtSecret, 'HS256');
+        $session = $request->getAttribute('session');
 
-        setcookie($this->session['cookie_name'], $token, time() + $this->session['expires_time'], '/');
+        $session->set($this->jwtSession['session_name'], $token);
+        $session->set($this->jwtSession['session_exp'], $future);
 
         $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
         $flashMessages->flash(self::LOGGED, [

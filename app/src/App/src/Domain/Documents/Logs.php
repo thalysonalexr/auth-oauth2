@@ -6,6 +6,7 @@ namespace App\Domain\Documents;
 
 use App\Domain\Value\Uuid;
 use App\Domain\Value\Date;
+use App\Domain\Value\StringValue;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**

@@ -167,7 +167,9 @@ class User implements \JsonSerializable
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
-            'created_at' => $this->createdAt
+            'created_at' => $this->createdAt,
+            'picture' => $this->getPicture,
+            'logs' => $this->logs
         ];
     }
 }

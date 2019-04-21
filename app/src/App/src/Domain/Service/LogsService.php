@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\Service;
 
 use App\Domain\Value\Uuid as u;
-use App\Domain\Value\Date as d;
 use App\Domain\Value\StringValue as s;
 use App\Domain\Documents\Logs;
+use App\Domain\Documents\User;
+use App\Infrastructure\Repository\LogsRepositoryInterface;
 
 final class LogsService implements LogsServiceInterface
 {
@@ -21,17 +22,16 @@ final class LogsService implements LogsServiceInterface
         $this->repository = $repository;
     }
 
-    public function create(string $browser, string $ip, bool $status): ?Logs
+    public function create(User $user, string $browser, string $ip, bool $status): ?Logs
     {
         $log = Logs::newLog(
             u::newUuid(),
-            d::newDate(),
             s::newString(['browser' => $browser]),
             s::newString(['ip' => $ip]),
             $status
         );
 
-        $this->repository->create($log);
+        $this->repository->create($user, $log);
 
         return $log;
     }

@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use App\Domain\Service\UserServiceInterface;
+use App\Domain\Service\LogsServiceInterface;
 use App\Domain\Service\Exception\UserNotFoundException;
 use App\Domain\Documents\User;
 use App\Domain\Value\Password;
@@ -33,6 +34,11 @@ final class Login implements MiddlewareInterface
     private $usersService;
 
     /**
+     * @var LogsServiceInterface
+     */
+    private $logsService;
+
+    /**
      * @var string
      */
     private $jwtSecret;
@@ -42,15 +48,24 @@ final class Login implements MiddlewareInterface
      */
     private $session;
 
-    public function __construct(UserServiceInterface $usersService, string $jwtSecret, array $session)
+    public function __construct(
+        UserServiceInterface $usersService,
+        LogsServiceInterface $logsService,
+        string $jwtSecret,
+        array $session
+    )
     {
         $this->usersService = $usersService;
+        $this->logsService = $logsService;
         $this->jwtSecret = $jwtSecret;
         $this->session = $session;
     }
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
         $data = $request->getParsedBody();
+        
+        $br = $request->getServerParams()['HTTP_USER_AGENT'];
+        $ip = $request->getAttribute('_ip');
 
         try {
             $user = $this->usersService->getByEmail($data['email']);
@@ -64,7 +79,7 @@ final class Login implements MiddlewareInterface
         try {
            Password::verify($data['password'], $user->getPassword());
         } catch (WrongPasswordException $e) {
-            // log failed
+            $this->logsService->create($user, $br, $ip, false);
             return new JsonResponse([
                 'code' => '401',
                 'message' => $e->getMessage()
@@ -73,6 +88,7 @@ final class Login implements MiddlewareInterface
 
         // log success
         $future = new \DateTime('+20 minutes');
+        $this->logsService->create($user, $br, $ip, true);
 
         $payload = [
             'iat' => (new \DateTime())->getTimestamp(),

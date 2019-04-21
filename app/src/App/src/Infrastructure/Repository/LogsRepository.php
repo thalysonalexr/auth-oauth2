@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
+use App\Domain\Documents\Logs;
+use App\Domain\Documents\User;
 use Doctrine\Common\Persistence\ObjectManager;
 
 final class LogsRepository implements LogsRepositoryInterface
@@ -24,9 +26,10 @@ final class LogsRepository implements LogsRepositoryInterface
     /**
      * { @inheritdoc }
      */
-    public function create(Logs $log): void
+    public function create(User $user, Logs $log): void
     {
-        $this->manager->persist($log);
+        $user->addLog($log);
+        $this->manager->persist($user);
         $this->manager->flush(null, ['safe' => true]);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Documents\Logs;
+use App\Domain\Documents\User;
 
 interface LogsRepositoryInterface
 {
@@ -14,5 +15,5 @@ interface LogsRepositoryInterface
      * @param Logs $user
      * @return void
      */
-    public function create(Logs $log): void;
+    public function create(User $user, Logs $log): void;
 }

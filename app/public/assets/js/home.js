@@ -105,15 +105,17 @@ $(document).ready(f => {
             data: $('#form-login').serialize(),
             type: 'post',
             error: (err) => {
+                console.log(err)
                 $('.show-alert-login').text(`${err.responseJSON.code} - ${err.responseJSON.message}`)
                 $('.show-alert-login').slideDown()
             },
             success: (response) => {
+                console.log(response)
                 $('.show-alert-login').slideUp()
                 $('#login').modal('hide')
                 // store the token in sessionStorage
                 sessionStorage.setItem('access_token', JSON.stringify(response))
-                window.location.href = '/profile'
+                //window.location.href = '/profile'
             }
         })
     })

@@ -37,8 +37,8 @@ final class Logs implements \JsonSerializable
 
     private function __construct(
         Uuid $uuid,
-        Date $signinDt,
-        ?Date $signoutDt,
+        \MongoDate $signinDt,
+        ?\MongoDate $signoutDt,
         StringValue $browser,
         StringValue $ip,
         bool $status
@@ -102,7 +102,7 @@ final class Logs implements \JsonSerializable
         if ($this->browser instanceof StringValue) {
             return $this->browser;
         }
-        
+
         return StringValue::fromString('browser', $this->browser);
     }
 
@@ -137,13 +137,12 @@ final class Logs implements \JsonSerializable
 
     public static function newLog(
         Uuid $uuid,
-        Date $signinDt,
         StringValue $browser,
         StringValue $ip,
         bool $status
     ): self
     {
-        return new self($uuid, $signinDt, null, $browser, $ip, $status);
+        return new self($uuid, Date::newDate()->convertToMongoDate(), null, $browser, $ip, $status);
     }
 
     public function jsonSerialize(): array

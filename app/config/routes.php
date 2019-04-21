@@ -13,7 +13,10 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     $app->post('/login', \App\Domain\Handler\User\Login::class, 'login.post');
 
-    $app->get('/login/facebook/callback', \App\Domain\Handler\User\LoginCallbackFacebook::class, 'login-facebook-callback.get');
+    $app->get('/login/facebook/callback', [
+        \App\Domain\Handler\User\LoginCallbackFacebook::class,
+        \App\Domain\Handler\User\CreateOauth::class
+    ], 'login-facebook-callback.get');
 
     $app->get('/login/google/callback', \App\Domain\Handler\User\LoginCallbackGoogle::class, 'login-google-callback.get');
 

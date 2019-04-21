@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Domain\Service;
 
 use App\Domain\Value\Uuid as u;
-use App\Domain\Value\StringValue as n;
+use App\Domain\Value\StringValue as s;
 use App\Domain\Value\Email as e;
 use App\Domain\Value\Password as p;
 use App\Domain\Documents\User;
+use App\Domain\Documents\Logs;
 use App\Domain\Service\Exception\UserNotFoundException;
 use App\Domain\Service\Exception\UserEmailExistsException;
 use App\Infrastructure\Repository\UserRepositoryInterface;
@@ -38,7 +39,7 @@ final class UserService implements UserServiceInterface
         } catch(UserNotFoundException $e) {
             $user = User::newUser(
                 u::newUuid(),
-                n::newString(['name' => $name]),
+                s::newString(['name' => $name]),
                 e::newEmail($email),
                 p::newPassword($password)
             );
@@ -60,5 +61,19 @@ final class UserService implements UserServiceInterface
         }
 
         return $user;
+    }
+
+    public function createLog(User $user, string $browser, string $ip, bool $status): ?Logs
+    {
+        $log = Logs::newLog(
+            u::newUuid(),
+            s::newString(['browser' => $browser]),
+            s::newString(['ip' => $ip]),
+            $status
+        );
+
+        $this->repository->createLog($user, $log);
+
+        return $log;
     }
 }

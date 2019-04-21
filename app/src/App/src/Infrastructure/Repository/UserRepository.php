@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Documents\User;
+use App\Domain\Documents\Logs;
 use App\Infrastructure\Repository\Exception\UserRepositoryException;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Domain\Value\ValueObjectsInterface;
@@ -53,5 +54,15 @@ final class UserRepository implements UserRepositoryInterface
             ->field($key)->equals($field[$key]->__toString())
             ->getQuery()
             ->getSingleResult();
+    }
+
+    /**
+     * { @inheritdoc }
+     */
+    public function createLog(User $user, Logs $log): void
+    {
+        $user->addLog($log);
+        $this->manager->persist($user);
+        $this->manager->flush(null, ['safe' => true]);
     }
 }

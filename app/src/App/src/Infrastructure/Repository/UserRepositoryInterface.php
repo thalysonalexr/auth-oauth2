@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Documents\User;
+use App\Domain\Documents\Logs;
 
 interface UserRepositoryInterface extends RepositoryInterface
 {    
@@ -23,4 +24,12 @@ interface UserRepositoryInterface extends RepositoryInterface
      * @return User
      */
     public function findOne(array $field = null): ?User;
+
+    /**
+     * Create a register of log
+     * 
+     * @param Logs $user
+     * @return void
+     */
+    public function createLog(User $user, Logs $log): void;
 }

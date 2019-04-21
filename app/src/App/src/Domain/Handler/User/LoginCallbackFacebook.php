@@ -47,11 +47,15 @@ final class LoginCallbackFacebook implements MiddlewareInterface
 
             // persist data if never registered
             return $handler->handle($request->withParsedBody([
-                'id' => $user->getId(),
+                'provider' => 'facebook',
+                'user_id' => $user->getId(),
                 'name' => $user->getName(),
                 'email' => $user->getEmail(),
                 'picture' => $user->getPictureUrl()
-            ])->withAttribute(Fb\ProviderInterface::class, $token));
+            ])->withAttribute(Fb\ProviderInterface::class, [
+                'expires' => $token->getExpires(),
+                'token' => $token->getToken()
+            ]));
 
         } catch (\Exception $e) {
             return new JsonResponse([

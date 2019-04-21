@@ -9,7 +9,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use App\Domain\Service\UserServiceInterface;
-use App\Domain\Service\LogsServiceInterface;
 use App\Domain\Service\Exception\UserNotFoundException;
 use App\Domain\Documents\User;
 use App\Domain\Value\Password;
@@ -34,11 +33,6 @@ final class Login implements MiddlewareInterface
     private $usersService;
 
     /**
-     * @var LogsServiceInterface
-     */
-    private $logsService;
-
-    /**
      * @var string
      */
     private $jwtSecret;
@@ -50,13 +44,11 @@ final class Login implements MiddlewareInterface
 
     public function __construct(
         UserServiceInterface $usersService,
-        LogsServiceInterface $logsService,
         string $jwtSecret,
         array $session
     )
     {
         $this->usersService = $usersService;
-        $this->logsService = $logsService;
         $this->jwtSecret = $jwtSecret;
         $this->session = $session;
     }
@@ -79,7 +71,7 @@ final class Login implements MiddlewareInterface
         try {
            Password::verify($data['password'], $user->getPassword());
         } catch (WrongPasswordException $e) {
-            $this->logsService->create($user, $br, $ip, false);
+            $this->usersService->createLog($user, $br, $ip, false);
             return new JsonResponse([
                 'code' => '401',
                 'message' => $e->getMessage()
@@ -88,7 +80,7 @@ final class Login implements MiddlewareInterface
 
         // log success
         $future = new \DateTime('+20 minutes');
-        $this->logsService->create($user, $br, $ip, true);
+        $this->usersService->createLog($user, $br, $ip, true);
 
         $payload = [
             'iat' => (new \DateTime())->getTimestamp(),

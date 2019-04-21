@@ -42,7 +42,7 @@ class User implements \JsonSerializable
     /** @ODM\ReferenceMany(targetDocument="Logs", cascade="all") */
     private $logs = array();
 
-    private function __construct(
+    protected function __construct(
         Uuid $uuid,
         StringValue $name,
         Email $email,

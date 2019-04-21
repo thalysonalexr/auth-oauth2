@@ -11,6 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use App\Domain\Service\UserServiceInterface;
 use App\Domain\Service\Exception\UserEmailExistsException;
 use Zend\Diactoros\Response\JsonResponse;
+use App\Domain\Documents\User;
 
 final class Create implements MiddlewareInterface
 {
@@ -29,7 +30,7 @@ final class Create implements MiddlewareInterface
         $body = $request->getParsedBody();
 
         try {
-            $success = $this->usersService->create(
+            $user = $this->usersService->create(
                 $body['name'],
                 $body['email'],
                 $body['password']
@@ -42,7 +43,8 @@ final class Create implements MiddlewareInterface
         }
 
         return new JsonResponse([
-            'success' => $success
+            'success' => $user instanceof User ? true: false,
+            'id' => $user->getId()
         ], 201);
     }
 }

@@ -31,12 +31,13 @@
 
 .box-btn-menu .btn{ width: 200px; }
 
-.btn i{ padding: 2%; }
+.btn i{ padding: 2%; color: #fcfcfc; }
 .btn:hover{ background-color: rgba(19, 35, 47, 0.4); }
 
 .text-btn{
     margin-left: 5%;
     padding: 3%;
+    color: #fcfcfc;
 }
 
 .btn-login{ width: 100%; }

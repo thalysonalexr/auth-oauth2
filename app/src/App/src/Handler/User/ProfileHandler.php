@@ -12,6 +12,7 @@ use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Expressive\Flash\FlashMessageMiddleware;
 use App\Domain\Handler\User\Login;
 use Zend\Diactoros\Response\RedirectResponse;
+use App\Domain\Middleware\Authentication;
 
 class ProfileHandler implements RequestHandlerInterface
 {
@@ -30,6 +31,11 @@ class ProfileHandler implements RequestHandlerInterface
         $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
         $messages = $flashMessages->getFlash(Login::LOGGED);
 
-        return new HtmlResponse($this->template->render('user::profile', $messages));
+        $data = [
+            'data' => $request->getAttribute(Authentication::class),
+            'messages' => $messages
+        ];
+
+        return new HtmlResponse($this->template->render('user::profile', $data));
     }
 }

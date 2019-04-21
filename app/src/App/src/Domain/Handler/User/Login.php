@@ -72,7 +72,7 @@ final class Login implements MiddlewareInterface
         }
 
         // log success
-        $future = new \DateTime('+60 minutes');
+        $future = new \DateTime('+20 minutes');
 
         $payload = [
             'iat' => (new \DateTime())->getTimestamp(),
@@ -80,6 +80,7 @@ final class Login implements MiddlewareInterface
             'jti' => (new Base62)->encode(random_bytes(16)),
             'data' => [
                 'id' => (string) $user->getId()->__toString(),
+                'name' => $user->getName()->__toString(),
                 'email' => $user->getEmail()->__toString()
             ]
         ];

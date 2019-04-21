@@ -4,8 +4,22 @@
 
 {% block content %}
 
-    {% if logged is defined and logged == true %}
-        <p>{{ message }}</p>
+<section>
+    <div class="wrapper container">
+    {% if messages.logged is defined and messages.logged == true %}
+        <div class="alert alert-success">{{ messages.message }}</div>
     {% endif %}
 
+    {% if data.name is defined %}
+        <h1>Welcome, {{ data.name }}!</h1>
+    {% endif %}
+    
+    {% if data.id is defined and data.email %}
+        <ul>
+            <li>ID: {{ data.id }}</li>
+            <li>E-mail: {{ data.email }}</li>
+        </ul>
+    {% endif %}
+    </div>
+</section>
 {% endblock %}

@@ -13,28 +13,30 @@
         </p>
         <div class="box-btn-menu">
             <div>
-                <button type="button" data-toggle="modal" data-target="#register" title="Register now!" class="btn add">
+                <a data-toggle="modal" data-target="#register" title="Register now!" class="btn add">
                     <i class="fas fa-user-plus fa-lg"></i>
                     <span class="text-btn">Register</span>
-                </button>
+                </a>
             </div>
             <div>
-                <button type="button" data-toggle="modal" data-target="#login" title="Login now!" class="btn login">
+                <a data-toggle="modal" data-target="#login" title="Login now!" class="btn login">
                     <i class="fas fa-sign-in-alt fa-lg"></i>
                     <span class="text-btn">Login</span>
-                </button>
+                </a>
             </div>
+            {% if facebook.logged is defined and facebook.logged == false %}
             <div>
-                <button type="button" title="Login with facebook" class="btn facebook">
+                <a href="{{ facebook.auth_url }}" title="Login with facebook" class="btn facebook">
                     <i class="fab fa-facebook-f fa-lg"></i>
                     <span class="text-btn">facebook</span>
-                </button>
+                </a>
             </div>
+            {% endif %}
             <div>
-                <button type="button" title="Login with google" class="btn google">
+                <a title="Login with google" class="btn google">
                     <i class="fab fa-google"></i>
                     <span class="text-btn">google</span>
-                </button>
+                </a>
             </div>
         </div>
         <!-- form register in modal -->

@@ -32,6 +32,9 @@ class ConfigProvider
     public function getDependencies() : array
     {
         return [
+            'aliases' => [
+                \App\Domain\Service\Facebook\ProviderInterface::class => \League\OAuth2\Client\Provider\Facebook::class
+            ],
             'invokables' => [
                 Handler\PingHandler::class => Handler\PingHandler::class,
             ],
@@ -46,9 +49,12 @@ class ConfigProvider
                 // actions
                 \App\Domain\Handler\User\Create::class => \App\Core\Factory\UserHandlerFactory::class,
                 \App\Domain\Handler\User\Login::class => \App\Core\Factory\UserAuthHandlerFactory::class,
+                \App\Domain\Handler\User\LoginFacebook::class => \App\Core\Factory\UserAuthHandlerFacebookFactory::class,
+                \App\Domain\Handler\User\LoginCallbackFacebook::class => \App\Core\Factory\UserAuthHandlerFacebookFactory::class,
 
                 // service
                 \App\Domain\Service\UserServiceInterface::class => \App\Core\Domain\Service\UserServiceFactory::class,
+                \League\OAuth2\Client\Provider\Facebook::class => \App\Core\Domain\Service\Facebook\ProviderFactory::class,
 
                 // repository
                 \App\Infrastructure\Repository\UserRepositoryInterface::class => \App\Core\Infrastructure\Repository\UserRepositoryFactory::class,

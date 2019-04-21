@@ -25,7 +25,7 @@ final class UserService implements UserServiceInterface
         $this->repository = $repository;
     }
 
-    public function create(string $name, string $email, string $password): bool
+    public function create(string $name, string $email, string $password): ?User
     {
         try {
             // verify if exists email in collections users
@@ -36,17 +36,17 @@ final class UserService implements UserServiceInterface
                 throw UserEmailExistsException::fromUserEmail($email);
             }
         } catch(UserNotFoundException $e) {
-            $this->repository->create(
-                User::newUser(
-                    u::newUuid(),
-                    n::newString(['name' => $name]),
-                    e::newEmail($email),
-                    p::newPassword($password)
-                )
+            $user = User::newUser(
+                u::newUuid(),
+                n::newString(['name' => $name]),
+                e::newEmail($email),
+                p::newPassword($password)
             );
+
+            $this->repository->create($user);
         }
 
-        return true;
+        return $user;
     }
 
     public function getByEmail(string $email): ?User

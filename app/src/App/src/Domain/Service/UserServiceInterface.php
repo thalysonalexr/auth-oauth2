@@ -14,7 +14,7 @@ interface UserServiceInterface
 {
     public function __construct(UserRepositoryInterface $repository);
 
-    public function create(string $name, string $email, string $password): bool;
+    public function create(string $name, string $email, string $password): ?User;
 
     public function getByEmail(string $email): ?User;
 }

@@ -49,7 +49,7 @@ final class Authentication implements MiddlewareInterface
         $token = isset($cookies[$cookie_name]) && ! empty($cookies[$cookie_name]) ? $cookies[$cookie_name] : null;
 
         try {
-            $payload = JWT::decode($token, $this->jwtSecret, ['HS256']);
+            $payload = JWT::decode($token, $this->jwtSecret, ['HS256'])->data;
         } catch(\Exception $e) {
             $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
             $flashMessages->flash(Login::LOGGED, [

@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
+use App\Domain\Handler\User\LoginFacebook;
 
 class HomePageHandler implements RequestHandlerInterface
 {
@@ -24,6 +25,12 @@ class HomePageHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return new HtmlResponse($this->template->render('app::home-page'));
+        $fb = $request->getAttribute(LoginFacebook::class);
+
+        $data = [
+            'facebook' => $fb
+        ];
+
+        return new HtmlResponse($this->template->render('app::home-page', $data));
     }
 }

@@ -19,7 +19,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  *     readOnly=true
  * )
  */
-final class User implements \JsonSerializable
+class User implements \JsonSerializable
 {
     /** @ODM\Id(strategy="NONE", type="string") */
     private $uuid;
@@ -35,6 +35,9 @@ final class User implements \JsonSerializable
 
     /** @ODM\Field(type="date") */
     private $createdAt;
+
+    /** @ODM\Field(type="string") */
+    private $picture;
 
     /** @ODM\ReferenceMany(targetDocument="Logs", cascade="all") */
     private $logs = array();
@@ -116,6 +119,20 @@ final class User implements \JsonSerializable
         }
 
         return Date::fromString($this->createdAt);
+    }
+
+    public function getPicture(): StringValue
+    {
+        if ($this->picture instanceof StringValue) {
+            return $this->picture;
+        }
+
+        return StringValue::fromString('picture', $this->picture);
+    }
+
+    public function setPicture(StringValue $picture): void
+    {
+        $this->picture = $picture;
     }
 
     public function getLogs(): array

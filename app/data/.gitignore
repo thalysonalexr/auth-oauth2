@@ -2,3 +2,6 @@
 !cache
 !cache/.gitkeep
 !.gitignore
+!logs
+!logs/.gitkeep
+!access_logs.txt

@@ -54,10 +54,12 @@ class ConfigProvider
 
                 // service
                 \App\Domain\Service\UserServiceInterface::class => \App\Core\Domain\Service\UserServiceFactory::class,
+                \App\Domain\Service\LogsServiceInterface::class => \App\Core\Domain\Service\LogsServiceFactory::class,
                 \League\OAuth2\Client\Provider\Facebook::class => \App\Core\Domain\Service\Facebook\ProviderFactory::class,
 
                 // repository
                 \App\Infrastructure\Repository\UserRepositoryInterface::class => \App\Core\Infrastructure\Repository\UserRepositoryFactory::class,
+                \App\Infrastructure\Repository\LogsRepositoryInterface::class => \App\Core\Infrastructure\Repository\LogsRepositoryFactory::class,
 
                 // middlewares
                 \Middlewares\HttpAuthentication::class => \App\Core\Middleware\JwtAuthenticationFactory::class,

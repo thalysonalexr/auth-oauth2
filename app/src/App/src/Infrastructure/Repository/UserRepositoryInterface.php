@@ -5,15 +5,9 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Documents\User;
-use Doctrine\Common\Persistence\ObjectManager;
 
-interface UserRepositoryInterface
-{
-    /**
-     * @param ObjectManager $manager
-     */
-    public function __construct(ObjectManager $manager);
-    
+interface UserRepositoryInterface extends RepositoryInterface
+{    
     /**
      * Create a new user
      * 

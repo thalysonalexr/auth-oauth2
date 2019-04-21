@@ -135,13 +135,15 @@ final class Logs implements \JsonSerializable
         $this->status = $status;
     }
 
-    public static function newLogin(
+    public static function newLog(
+        Uuid $uuid,
+        Date $signinDt,
         StringValue $browser,
         StringValue $ip,
         bool $status
     ): self
     {
-        return new self(Uuid::newUuid(), Date::new(), null, $browser, $ip, $status);
+        return new self($uuid, $signinDt, null, $browser, $ip, $status);
     }
 
     public function jsonSerialize(): array

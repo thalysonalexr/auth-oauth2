@@ -14,15 +14,13 @@ final class ProviderFactory extends Server
     public function __invoke(ContainerInterface $container): Facebook
     {
         $router = $container->get(RouterInterface::class);
-        $configFacebook = $container->get('config')['oauth2']['facebook'];
-
-        $uri = $router->generateUri($configFacebook['redirect_uri']);
+        $config = $container->get('config')['oauth2']['facebook'];
 
         return new Facebook([
-            'clientId' => $configFacebook['id_app'],
-            'clientSecret' => $configFacebook['secret'],
-            'redirectUri' => $this->serverWithUri($uri),
-            'graphApiVersion' => $configFacebook['version']
+            'clientId'        => $config['id_app'],
+            'clientSecret'    => $config['secret'],
+            'redirectUri'     => $this->serverWithUri($router->generateUri($config['redirect_uri'])),
+            'graphApiVersion' => $config['version']
         ]);
     }
 }

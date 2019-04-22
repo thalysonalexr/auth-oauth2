@@ -16,7 +16,9 @@ use App\Domain\Value\Exception\WrongPasswordException;
 use Tuupola\Base62;
 use Firebase\JWT\JWT;
 use Zend\Diactoros\Response\JsonResponse;
+use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Flash\FlashMessageMiddleware;
+use Zend\Expressive\Router\RouterInterface;
 
 use function random_bytes;
 
@@ -33,6 +35,11 @@ final class Login implements MiddlewareInterface
     private $usersService;
 
     /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    /**
      * @var string
      */
     private $jwtSecret;
@@ -44,6 +51,7 @@ final class Login implements MiddlewareInterface
 
     public function __construct(
         UserServiceInterface $usersService,
+        RouterInterface $router,
         string $jwtSecret,
         array $jwtSession
     )
@@ -51,6 +59,7 @@ final class Login implements MiddlewareInterface
         $this->usersService = $usersService;
         $this->jwtSecret = $jwtSecret;
         $this->jwtSession = $jwtSession;
+        $this->router = $router;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
@@ -107,9 +116,6 @@ final class Login implements MiddlewareInterface
             'message' => 'Login successfully, you are on your profile!'
         ]);
 
-        return new JsonResponse([
-            'token' => $token,
-            'expires' => $future->getTimestamp()
-        ]);
+        return new RedirectResponse($this->router->generateUri('profile.get'), 301);
     }
 }

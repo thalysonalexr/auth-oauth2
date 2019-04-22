@@ -8,16 +8,27 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Zend\Expressive\Router\RouterInterface;
 use League\OAuth2\Client\Provider\Facebook;
 
 final class LoginFacebook implements MiddlewareInterface
 {
     /**
+     * @var bool
+     */
+    public const ROUTER = false;
+
+    /**
      * @var Facebook
      */
     private $provider;
 
-    public function __construct(Facebook $provider)
+    /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    public function __construct(Facebook $provider, RouterInterface $router = null)
     {
         $this->provider = $provider;
     }
@@ -27,7 +38,7 @@ final class LoginFacebook implements MiddlewareInterface
         $params  = $request->getQueryParams();
         $session = $request->getAttribute('session');
 
-        if (!isset($params['code'])) {
+        if ( ! isset($params['code'])) {
             $authUrl = $this->provider->getAuthorizationUrl([
                 'scope' => ['email'],
             ]);

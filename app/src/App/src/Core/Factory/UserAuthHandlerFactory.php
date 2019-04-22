@@ -7,6 +7,7 @@ namespace App\Core\Factory;
 use App\Domain\Service\UserServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Zend\Expressive\Router\RouterInterface;
 
 final class UserAuthHandlerFactory
 {
@@ -14,6 +15,7 @@ final class UserAuthHandlerFactory
     {
         return new $className(
             $container->get(UserServiceInterface::class),
+            $container->get(RouterInterface::class),
             $container->get('config')['auth']['jwt']['secret'],
             $container->get('config')['session']['jwt']
         );

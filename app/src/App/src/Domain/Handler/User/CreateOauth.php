@@ -11,6 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use App\Domain\Service\UserServiceInterface;
 use App\Domain\Service\Exception\UserOauthExistsException;
 use Zend\Diactoros\Response\RedirectResponse;
+use Zend\Expressive\Router\RouterInterface;
 use App\Domain\Documents\UserOauth;
 use Tuupola\Base62;
 use Firebase\JWT\JWT;
@@ -21,6 +22,11 @@ final class CreateOauth implements MiddlewareInterface
      * @var UserServiceInterface
      */
     private $usersService;
+
+    /**
+     * @var RouterInterface
+     */
+    private $router;
 
     /**
      * @var string
@@ -34,11 +40,13 @@ final class CreateOauth implements MiddlewareInterface
 
     public function __construct(
         UserServiceInterface $usersService,
+        RouterInterface $router,
         string $jwtSecret,
         array $jwtSession
     )
     {
         $this->usersService = $usersService;
+        $this->router = $router;
         $this->jwtSecret = $jwtSecret;
         $this->jwtSession = $jwtSession;
     }
@@ -86,7 +94,8 @@ final class CreateOauth implements MiddlewareInterface
             $session->set($this->jwtSession['session_exp'], $future);
 
             $this->usersService->createLog($user, $br, $ip, true);
-            return new RedirectResponse('/profile', 301);
+
+            return new RedirectResponse($this->router->generateUri('profile.get'), 301);
         }
     }
 }

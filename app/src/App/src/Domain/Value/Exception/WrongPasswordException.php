@@ -10,6 +10,6 @@ final class WrongPasswordException extends \InvalidArgumentException implements 
 {
     public static function fromWrongPassword(string $password): self
     {
-        return new self(sprintf('Password "%s" is incorrect', (string) $password));
+        return new self(sprintf('Password "%s" is incorrect', (string) str_repeat("*", strlen($password))));
     }
 }

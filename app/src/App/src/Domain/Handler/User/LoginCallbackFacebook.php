@@ -11,18 +11,30 @@ use Psr\Http\Server\RequestHandlerInterface;
 use League\OAuth2\Client\Provider\Facebook;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Response\JsonResponse;
+use Zend\Expressive\Router\RouterInterface;
 use App\Domain\Service\Facebook as Fb;
 
 final class LoginCallbackFacebook implements MiddlewareInterface
 {
     /**
+     * @var bool
+     */
+    public const ROUTER = true;
+
+    /**
      * @var Facebook
      */
     private $provider;
 
-    public function __construct(Facebook $provider)
+    /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    public function __construct(Facebook $provider, RouterInterface $router)
     {
         $this->provider = $provider;
+        $this->router   = $router;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -36,11 +48,11 @@ final class LoginCallbackFacebook implements MiddlewareInterface
         } catch (League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
             // verify token on session and redirect to profile
             if ($request->getAttribute('session')->has('oauth2state')) {
-                return new RedirectResponse('/profile', 301);
+                return new RedirectResponse($this->router->generateUri('profile.get'), 301);
             }
 
         } catch (\Exception $e) {
-           return new RedirectResponse('/', 301);
+           return new RedirectResponse($this->router->generateUri('home.get'), 301);
         }
 
         try {

@@ -5,12 +5,12 @@
 
 > description
 
-## Créditos
+## Credits
 
 * Thalyson Alexandre Rodrigues de Sousa
     - [Github](https://github.com/thalysonrodrigues)
     - Email: *tha.motog@gmail.com*
 
-## Licença
+## Licence
 
 The MIT License (MIT). Please see [License File](https://github.com/thalysonrodrigues/login-facebook/blob/master/LICENSE) for more information.

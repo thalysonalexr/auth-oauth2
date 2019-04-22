@@ -13,7 +13,7 @@ services:
       - ./etc/ssl:/etc/ssl
       - ./app:/var/www/html
     container_name: auth_oauth2_nginx
-    command: /bin/sh -c "mkdir /var/www/html/data/logs && touch /var/www/html/data/logs/access_log.txt && chmod 755 /var/www/html/data/logs && chmod 777 /var/www/html/data/logs/access_log.txt"
+    # command: /bin/sh -c "mkdir /var/www/html/data/logs && touch /var/www/html/data/logs/access_log.txt && chmod 755 /var/www/html/data/logs && chmod 777 /var/www/html/data/logs/access_log.txt"
     links:
       - php
       - mongodb

@@ -15,7 +15,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 /**
  * @ODM\MappedSuperclass
  * @ODM\Document(
- *     db="login_oauth2",
+ *     db="auth_oauth2",
  *     collection="users",
  *     readOnly=true
  * )

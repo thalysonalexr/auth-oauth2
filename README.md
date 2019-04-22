@@ -1,6 +1,6 @@
-# Auth ouath2
+# Auth oauth2
 
-[![GitHub version](https://badge.fury.io/gh/thalysonrodrigues%2Flogin-facebook.svg)](https://badge.fury.io/gh/thalysonrodrigues%2Flogin-facebook)
+[![GitHub version](https://badge.fury.io/gh/thalysonrodrigues%2Fauth-oauth2.svg)](https://badge.fury.io/gh/thalysonrodrigues%2Fauth-oauth2)
 [![Software License](https://img.shields.io/apm/l/vim-mode.svg)](https://github.com/thalysonrodrigues/login-facebook/blob/master/LICENSE)
 
 > description

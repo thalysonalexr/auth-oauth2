@@ -13,11 +13,11 @@ use App\Domain\Service\Exception\UserOauthExistsException;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Router\RouterInterface;
 use App\Domain\Documents\UserOauth;
-use Tuupola\Base62;
-use Firebase\JWT\JWT;
 
 final class CreateOauth implements MiddlewareInterface
 {
+    use \App\Core\Helpers\JwtWrapper;
+
     /**
      * @var UserServiceInterface
      */
@@ -74,24 +74,12 @@ final class CreateOauth implements MiddlewareInterface
             );
         } finally {
             // create a token to user and redirect to profile
-            $future = new \DateTime('+20 minutes');
+            $jwt = $this->createJwt($user);
 
-            $payload = [
-                'iat' => (new \DateTime())->getTimestamp(),
-                'exp' => $future->getTimestamp(),
-                'jti' => (new Base62)->encode(random_bytes(16)),
-                'data' => [
-                    'id' => (string) $user->getId()->__toString(),
-                    'name' => $user->getName()->__toString(),
-                    'email' => $user->getEmail()->__toString()
-                ]
-            ];
-
-            $token = JWT::encode($payload, $this->jwtSecret, 'HS256');
             $session = $request->getAttribute('session');
 
-            $session->set($this->jwtSession['session_name'], $token);
-            $session->set($this->jwtSession['session_exp'], $future);
+            $session->set($this->jwtSession['session_exp'], $jwt->exp);
+            $session->set($this->jwtSession['session_name'], $jwt->token);
 
             $this->usersService->createLog($user, $br, $ip, true);
 

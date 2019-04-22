@@ -13,17 +13,15 @@ use App\Domain\Service\Exception\UserNotFoundException;
 use App\Domain\Documents\User;
 use App\Domain\Value\Password;
 use App\Domain\Value\Exception\WrongPasswordException;
-use Tuupola\Base62;
-use Firebase\JWT\JWT;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Flash\FlashMessageMiddleware;
 use Zend\Expressive\Router\RouterInterface;
 
-use function random_bytes;
-
 final class Login implements MiddlewareInterface
 {
+    use \App\Core\Helpers\JwtWrapper;
+
     /**
      * @var string
      */
@@ -90,25 +88,13 @@ final class Login implements MiddlewareInterface
 
         // log success
         $this->usersService->createLog($user, $br, $ip, true);
+        
+        $jwt = $this->createJwt($user);
 
-        $future = new \DateTime('+20 minutes');
-
-        $payload = [
-            'iat' => (new \DateTime())->getTimestamp(),
-            'exp' => $future->getTimestamp(),
-            'jti' => (new Base62)->encode(random_bytes(16)),
-            'data' => [
-                'id' => (string) $user->getId()->__toString(),
-                'name' => $user->getName()->__toString(),
-                'email' => $user->getEmail()->__toString()
-            ]
-        ];
-
-        $token = JWT::encode($payload, $this->jwtSecret, 'HS256');
         $session = $request->getAttribute('session');
 
-        $session->set($this->jwtSession['session_name'], $token);
-        $session->set($this->jwtSession['session_exp'], $future);
+        $session->set($this->jwtSession['session_exp'], $jwt->exp);
+        $session->set($this->jwtSession['session_name'], $jwt->token);
 
         $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
         $flashMessages->flash(self::LOGGED, [

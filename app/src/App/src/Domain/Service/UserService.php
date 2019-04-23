@@ -8,6 +8,7 @@ use App\Domain\Value\Uuid as u;
 use App\Domain\Value\StringValue as s;
 use App\Domain\Value\Email as e;
 use App\Domain\Value\Password as p;
+use App\Domain\Value\Jti as j;
 use App\Domain\Documents\User;
 use App\Domain\Documents\UserOauth;
 use App\Domain\Documents\UserInterface;
@@ -83,12 +84,13 @@ final class UserService implements UserServiceInterface
         return $user;
     }
 
-    public function createLog(UserInterface $user, string $browser, string $ip, bool $status): ?Logs
+    public function createLog(UserInterface $user, string $browser, string $ip, string $jti, bool $status): ?Logs
     {
         $log = Logs::newLog(
             u::newUuid(),
             s::newString(['browser' => $browser]),
             s::newString(['ip' => $ip]),
+            j::newJti($jti),
             $status
         );
 

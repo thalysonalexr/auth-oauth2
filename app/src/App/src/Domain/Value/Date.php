@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Value;
 
-final class Date implements \JsonSerializable, ValueObjectsInterface
+final class Date implements ValueObjectsInterface
 {
     /**
      * @var string

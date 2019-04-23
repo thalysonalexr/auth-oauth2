@@ -8,7 +8,7 @@ use App\Domain\Value\Exception\InvalidEmailAddressException;
 
 use function filter_var;
 
-final class Email implements \JsonSerializable, ValueObjectsInterface
+final class Email implements ValueObjectsInterface
 {
     /**
      * @var string

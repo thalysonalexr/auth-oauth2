@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Documents;
 
+use App\Domain\Value\Jti;
 use App\Domain\Value\Uuid;
 use App\Domain\Value\Date;
 use App\Domain\Value\StringValue;
@@ -32,8 +33,14 @@ final class Logs implements \JsonSerializable
     /** @ODM\Field(type="string") */
     private $ip;
 
+    /** @ODM\Field(type="string") */
+    private $jti;
+
     /** @ODM\Field(type="bool") */
     private $status;
+
+    /** @ODM\Field(type="bool") */
+    private $timeout;
 
     private function __construct(
         Uuid $uuid,
@@ -41,7 +48,9 @@ final class Logs implements \JsonSerializable
         ?\MongoDate $signoutDt,
         StringValue $browser,
         StringValue $ip,
-        bool $status
+        Jti $jti,
+        bool $status,
+        ?bool $timeout
     )
     {
         $this->uuid = $uuid;
@@ -49,7 +58,9 @@ final class Logs implements \JsonSerializable
         $this->signoutDt = $signoutDt;
         $this->browser = $browser;
         $this->ip = $ip;
+        $this->jti = $jti;
         $this->status = $status;
+        $this->timeout = $timeout;
     }
 
     public function getId(): Uuid
@@ -125,6 +136,20 @@ final class Logs implements \JsonSerializable
         $this->ip = $ip;
     }
 
+    public function getJti(): Jti
+    {
+        if ($this->jti instanceof Jti) {
+            return $this->jti;
+        }
+
+        return Jti::fromString($this->jti);
+    }
+
+    public function setJti(Jti $jti): void
+    {
+        $this->jti = $jti;
+    }
+
     public function getStatus(): bool
     {
         return $this->status;
@@ -135,14 +160,25 @@ final class Logs implements \JsonSerializable
         $this->status = $status;
     }
 
+    public function getTimeout(): bool
+    {
+        return $this->timeout;
+    }
+
+    public function setTimeout(bool $timeout): void
+    {
+        $this->timeout = $timeout;
+    }
+
     public static function newLog(
         Uuid $uuid,
         StringValue $browser,
         StringValue $ip,
+        Jti $jti,
         bool $status
     ): self
     {
-        return new self($uuid, Date::newDate()->convertToMongoDate(), null, $browser, $ip, $status);
+        return new self($uuid, Date::newDate()->convertToMongoDate(), null, $browser, $ip, $jti, $status, null);
     }
 
     public function jsonSerialize(): array
@@ -153,7 +189,9 @@ final class Logs implements \JsonSerializable
             'signout_date' => $this->signoutDt,
             'browser' => $this->browser,
             'ip' => $this->ip,
-            'status' => $this->status
+            'jti' => $this->jti,
+            'status' => $this->status,
+            'timeout' => $this->timeout
         ];
     }
 }

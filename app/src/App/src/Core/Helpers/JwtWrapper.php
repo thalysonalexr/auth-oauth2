@@ -12,6 +12,13 @@ use function random_bytes;
 
 trait JwtWrapper
 {
+    /**
+     * Return a JWT (Json Web Token) with time to expires, jti (id of token) and token
+     * 
+     * @param UserInterface $user
+     * @param int $minutes
+     * @return \StdClass
+     */
     private function createJwt(UserInterface $user, int $minutes = 20): \StdClass
     {
         $future = (new \DateTime("+$minutes minutes"))->getTimestamp();
@@ -19,7 +26,7 @@ trait JwtWrapper
         $payload = [
             'iat' => (new \DateTime())->getTimestamp(),
             'exp' => $future,
-            'jti' => (new Base62)->encode(random_bytes(16)),
+            'jti' => (new Base62)->encode(random_bytes(32)),
             'data' => [
                 'id' => (string) $user->getId()->__toString(),
                 'name' => $user->getName()->__toString(),
@@ -29,6 +36,7 @@ trait JwtWrapper
 
         return (object) [
             'exp' => $future,
+            'jti' => $payload['jti'],
             'token' => JWT::encode($payload, $this->jwtSecret, 'HS256')
         ];
     }

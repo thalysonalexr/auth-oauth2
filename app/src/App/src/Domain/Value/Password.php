@@ -8,7 +8,7 @@ use App\Domain\Value\Exception\WrongPasswordException;
 
 use function password_hash;
 
-final class Password implements \JsonSerializable, ValueObjectsInterface
+final class Password implements ValueObjectsInterface
 {
     /**
      * @var array

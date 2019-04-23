@@ -7,7 +7,7 @@ namespace App\Domain\Value;
 use Ramsey\Uuid\Uuid as GeneratorUuid;
 use Ramsey\Uuid\UuidInterface;
 
-final class Uuid implements \JsonSerializable, ValueObjectsInterface
+final class Uuid implements ValueObjectsInterface
 {
     /**
      * @var UuidInterface

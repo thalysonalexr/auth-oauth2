@@ -9,7 +9,7 @@ use App\Domain\Value\Exception\InvalidStringValueException;
 use function is_string;
 use function key;
 
-final class StringValue implements \JsonSerializable, ValueObjectsInterface
+final class StringValue implements ValueObjectsInterface
 {
     /**
      * @var string

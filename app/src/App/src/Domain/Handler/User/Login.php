@@ -84,17 +84,16 @@ final class Login implements MiddlewareInterface
                 'code' => '401',
                 'message' => $e->getMessage()
             ], 401);
-        }
+        }        
 
-        // log success
-        $this->usersService->createLog($user, $br, $ip, true);
-        
         $jwt = $this->createJwt($user);
 
         $session = $request->getAttribute('session');
 
         $session->set($this->jwtSession['session_exp'], $jwt->exp);
         $session->set($this->jwtSession['session_name'], $jwt->token);
+
+        $this->usersService->createLog($user, $br, $ip, $jwt->jti, true);
 
         $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
         $flashMessages->flash(self::LOGGED, [

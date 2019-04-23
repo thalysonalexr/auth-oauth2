@@ -16,7 +16,7 @@ interface UserServiceInterface
 
     public function getByEmail(string $email, string $className): ?UserInterface;
 
-    public function createLog(UserInterface $user, string $browser, string $ip, bool $status): ?Logs;
+    public function createLog(UserInterface $user, string $browser, string $ip, string $jti, bool $status): ?Logs;
 
     public function createOauth(string $provider, string $userId, string $name, string $email, ?string $picture): ?UserInterface;
 }

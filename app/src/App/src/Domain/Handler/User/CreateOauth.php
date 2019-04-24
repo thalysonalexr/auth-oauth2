@@ -82,7 +82,7 @@ final class CreateOauth implements MiddlewareInterface
             $session->set($this->jwtSession['session_exp'], $jwt->exp);
             $session->set($this->jwtSession['session_name'], $jwt->token);
 
-            $this->usersService->createLog($user, $br, $ip, $jwt->jti, true);
+            $this->usersService->createLog($user, $br, $ip, true, $jwt->jti);
 
             return new RedirectResponse($this->router->generateUri('profile.get'), 301);
         }

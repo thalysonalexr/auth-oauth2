@@ -16,13 +16,19 @@ use App\Domain\Service\Exception\UserNotFoundException;
 use Firebase\JWT\JWT;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Flash\FlashMessageMiddleware;
+use Zend\Expressive\Router\RouterInterface;
 
 final class Authentication implements MiddlewareInterface
 {
     /**
-     * @var array
+     * @var UserServiceInterface
      */
-    private $jwtSession;
+    private $usersService;
+
+    /**
+     * @var RouterInterface
+     */
+    private $router;
 
     /**
      * @var string
@@ -30,18 +36,21 @@ final class Authentication implements MiddlewareInterface
     private $jwtSecret;
 
     /**
-     * @var UserServiceInterface
+     * @var array
      */
-    private $usersService;
+    private $jwtSession;
 
     public function __construct(
-        array $jwtSession,
+        UserServiceInterface $usersService,
+        RouterInterface $router,
         string $jwtSecret,
-        UserServiceInterface $usersService)
+        array $jwtSession
+    )
     {
-        $this->jwtSession = $jwtSession;
-        $this->jwtSecret = $jwtSecret;
         $this->usersService = $usersService;
+        $this->router = $router;
+        $this->jwtSecret = $jwtSecret;
+        $this->jwtSession = $jwtSession;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -79,16 +88,20 @@ final class Authentication implements MiddlewareInterface
                         'message' => 'User not found! Please, check information'
                     ]);
     
-                    return new RedirectResponse('/', 301);
+                    return new RedirectResponse($this->router->generateUri('home.get'), 301);
                 }
             }            
         } catch (\Exception $e) {
+            $this->usersService->timeout($session->get(
+                $this->jwtSession['session_jti']
+            ));
+
             $message->flash(Login::LOGGED, [
                 'logged' => false,
                 'message' => 'Please log in to continue'
             ]);
 
-            return new RedirectResponse('/', 301);
+            return new RedirectResponse($this->router->generateUri('home.get'), 301);
         }
     }
 }

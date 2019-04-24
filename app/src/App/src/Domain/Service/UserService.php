@@ -36,7 +36,7 @@ final class UserService implements UserServiceInterface
         try {
             // verify if exists email in collections users
             // database not set a unique constraint for email
-            $user = $this->getByEmail($email);
+            $user = $this->getByEmail($email, User::class);
 
             if ($user instanceof User) {
                 throw UserEmailExistsException::fromUserEmail($email);
@@ -85,13 +85,13 @@ final class UserService implements UserServiceInterface
         return $user;
     }
 
-    public function createLog(UserInterface $user, string $browser, string $ip, string $jti, bool $status): ?Logs
+    public function createLog(UserInterface $user, string $browser, string $ip, bool $status, string $jti = null): ?Logs
     {
         $log = Logs::newLog(
             u::newUuid(),
             s::newString(['browser' => $browser]),
             s::newString(['ip' => $ip]),
-            j::newJti($jti),
+            is_string($jti) ? j::newJti($jti): null,
             $status
         );
 

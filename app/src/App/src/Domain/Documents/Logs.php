@@ -48,7 +48,7 @@ final class Logs implements \JsonSerializable
         ?\MongoDate $signoutDt,
         StringValue $browser,
         StringValue $ip,
-        Jti $jti,
+        ?Jti $jti,
         bool $status,
         ?bool $timeout
     )
@@ -174,7 +174,7 @@ final class Logs implements \JsonSerializable
         Uuid $uuid,
         StringValue $browser,
         StringValue $ip,
-        Jti $jti,
+        ?Jti $jti,
         bool $status
     ): self
     {

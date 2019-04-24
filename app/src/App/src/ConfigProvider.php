@@ -60,9 +60,6 @@ class ConfigProvider
 
                 // repository
                 \App\Infrastructure\Repository\UserRepositoryInterface::class => \App\Core\Infrastructure\Repository\UserRepositoryFactory::class,
-
-                // middlewares
-                \Middlewares\HttpAuthentication::class => \App\Core\Middleware\JwtAuthenticationFactory::class,
             ],
         ];
     }

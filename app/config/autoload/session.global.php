@@ -6,7 +6,8 @@ return [
     'session' => [
         'jwt' => [
             'session_name' => '_sessusertoken',
-            'session_exp' => '_sessuserexp'
+            'session_exp' => '_sessuserexp',
+            'session_jti' => '_sessuserjti'
         ]
     ]
 ];

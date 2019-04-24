@@ -19,4 +19,8 @@ interface UserServiceInterface
     public function createLog(UserInterface $user, string $browser, string $ip, string $jti, bool $status): ?Logs;
 
     public function createOauth(string $provider, string $userId, string $name, string $email, ?string $picture): ?UserInterface;
+
+    public function signout(string $jti): bool;
+
+    public function timeout(string $jti): bool;
 }

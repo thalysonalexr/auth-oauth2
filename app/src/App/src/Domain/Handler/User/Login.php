@@ -90,6 +90,7 @@ final class Login implements MiddlewareInterface
 
         $session = $request->getAttribute('session');
 
+        $session->set($this->jwtSession['session_jti'], $jwt->jti);
         $session->set($this->jwtSession['session_exp'], $jwt->exp);
         $session->set($this->jwtSession['session_name'], $jwt->token);
 

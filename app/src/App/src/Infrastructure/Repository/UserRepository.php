@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
+use App\Domain\Documents\Logs;
 use App\Domain\Documents\User;
 use App\Domain\Documents\UserInterface;
-use App\Domain\Documents\Logs;
+use App\Domain\Value\ValueObjectsInterface;
+use App\Domain\Value\Jti;
 use App\Infrastructure\Repository\Exception\UserRepositoryException;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Domain\Value\ValueObjectsInterface;
 
 final class UserRepository implements UserRepositoryInterface
 {
@@ -80,5 +81,23 @@ final class UserRepository implements UserRepositoryInterface
         $user->addLog($log);
         $this->manager->persist($user);
         $this->manager->flush(null, ['safe' => true]);
+    }
+
+    public function updateLog(Jti $jti, array $fields): bool
+    {
+        $log = $this->manager->createQueryBuilder(Logs::class)
+            ->findAndUpdate()
+            ->field('jti')->equals($jti->getValue())
+            ->sort('prority', 'desc');
+
+        foreach ($fields as $key => $value) {
+            $log->field($key)->set($value);
+        }
+
+        if ($log->getQuery()->execute() instanceof Logs) {
+            return true;
+        }
+
+        return false;
     }
 }

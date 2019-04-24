@@ -50,6 +50,7 @@ class ConfigProvider
                 \App\Domain\Handler\User\Create::class => \App\Core\Factory\UserHandlerFactory::class,
                 \App\Domain\Handler\User\CreateOauth::class => \App\Core\Factory\UserAuthHandlerFactory::class,
                 \App\Domain\Handler\User\Login::class => \App\Core\Factory\UserAuthHandlerFactory::class,
+                \App\Domain\Handler\User\Logout::class => \App\Core\Factory\UserAuthHandlerFactory::class,
                 \App\Domain\Handler\User\LoginFacebook::class => \App\Core\Factory\UserAuthHandlerFacebookFactory::class,
                 \App\Domain\Handler\User\LoginCallbackFacebook::class => \App\Core\Factory\UserAuthHandlerFacebookFactory::class,
 

@@ -6,6 +6,7 @@ namespace App\Domain\Service;
 
 use App\Domain\Value\Uuid as u;
 use App\Domain\Value\StringValue as s;
+use App\Domain\Value\Date as d;
 use App\Domain\Value\Email as e;
 use App\Domain\Value\Password as p;
 use App\Domain\Value\Jti as j;
@@ -125,5 +126,25 @@ final class UserService implements UserServiceInterface
         }
 
         return $user;
+    }
+
+
+    public function signout(string $jti): bool
+    {
+        return $this->repository->updateLog(
+            j::newJti($jti),
+            ['signoutDt' => d::newDate()->convertToMongoDate()]
+        );
+    }
+
+    public function timeout(string $jti): bool
+    {
+        return $this->repository->updateLog(
+            j::newJti($jti),
+            [
+                'timeout' => true,
+                'signoutDt' => d::newDate()->convertToMongoDate()
+            ]
+        );
     }
 }

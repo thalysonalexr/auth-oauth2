@@ -19,6 +19,11 @@ final class Uuid implements ValueObjectsInterface
         $this->uuid = $uuid;
     }
 
+    public function getUuid(): string
+    {
+        return $this->uuid->toString();
+    }
+
     public static function newUuid(): self
     {
         return new self(GeneratorUuid::uuid4());

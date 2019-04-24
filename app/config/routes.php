@@ -13,7 +13,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     $app->post('/login', \App\Domain\Handler\User\Login::class, 'login.post');
 
-    $app->get('/logout', \App\Domain\Handler\User\Logout::class, 'logout.post');
+    $app->post('/logout', \App\Domain\Handler\User\Logout::class, 'logout.post');
 
     $app->get('/login/facebook/callback', [
         \App\Domain\Handler\User\LoginCallbackFacebook::class,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
+use App\Domain\Value\Jti;
 use App\Domain\Documents\Logs;
 use App\Domain\Documents\UserInterface;
 
@@ -42,4 +43,13 @@ interface UserRepositoryInterface extends RepositoryInterface
      * @return void
      */
     public function createLog(UserInterface $user, Logs $log): void;
+
+    /**
+     * Update fields in log
+     * 
+     * @param Jti $jti
+     * @param array $fields
+     * @return bool
+     */
+    public function updateLog(Jti $jti, array $fields): bool;
 }

@@ -28,9 +28,9 @@ trait JwtWrapper
             'exp' => $future,
             'jti' => (new Base62)->encode(random_bytes(32)),
             'data' => [
-                'id' => (string) $user->getId()->__toString(),
-                'name' => $user->getName()->__toString(),
-                'email' => $user->getEmail()->__toString()
+                'id' => (string) $user->getId()->getUuid(),
+                'name' => $user->getName()->getString(),
+                'email' => $user->getEmail()->getEmail()
             ]
         ];
 

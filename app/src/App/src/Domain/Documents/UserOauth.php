@@ -30,6 +30,7 @@ final class UserOauth extends User
         Uuid $uuid,
         StringValue $name,
         Email $email,
+        ?StringValue $picture,
         \MongoDate $createdAt,
         StringValue $userId,
         StringValue $provider
@@ -37,7 +38,7 @@ final class UserOauth extends User
     {
         $this->userId = $userId;
         $this->provider = $provider;
-        parent::__construct($uuid, $name, $email, null, $createdAt);
+        parent::__construct($uuid, $name, $email, null, $createdAt, $picture);
     }
 
     public function getUserId(): StringValue
@@ -72,11 +73,12 @@ final class UserOauth extends User
         Uuid $uuid,
         StringValue $name,
         Email $email,
+        ?StringValue $picture,
         StringValue $userId,
         StringValue $provider
     ): self
     {
-        return new self($uuid, $name, $email, Date::newDate()->convertToMongoDate(), $userId, $provider);
+        return new self($uuid, $name, $email, $picture, Date::newDate()->convertToMongoDate(), $userId, $provider);
     }
 
     public function jsonSerialize(): array

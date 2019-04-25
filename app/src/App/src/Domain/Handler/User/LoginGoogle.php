@@ -9,27 +9,27 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Expressive\Router\RouterInterface;
-use League\OAuth2\Client\Provider\Facebook;
-use App\Domain\Service\Facebook\ProviderInterface;
+use League\OAuth2\Client\Provider\Google;
+use App\Domain\Service\Google\ProviderInterface;
 
-final class LoginFacebook implements MiddlewareInterface
+final class LoginGoogle implements MiddlewareInterface
 {
     /**
      * @var bool
      */
     public const ROUTER = false;
-    
+
     /**
      * @var string
      */
     public const PROVIDER = ProviderInterface::class;
 
     /**
-     * @var Facebook
+     * @var Google
      */
     private $provider;
 
-    public function __construct(Facebook $provider, RouterInterface $router = null)
+    public function __construct(Google $provider, RouterInterface $router = null)
     {
         $this->provider = $provider;
     }
@@ -39,10 +39,13 @@ final class LoginFacebook implements MiddlewareInterface
         $params  = $request->getQueryParams();
         $session = $request->getAttribute('session');
 
-        if ( ! isset($params['code'])) {
-            $authUrl = $this->provider->getAuthorizationUrl([
-                'scope' => ['email'],
-            ]);
+        if ( ! empty($params['error'])) {
+            // access denied
+            exit('Got error: ' . htmlspecialchars($params['error'], ENT_QUOTES, 'UTF-8'));
+
+        } elseif (empty($params['code'])) {
+            // get a url
+            $authUrl = $this->provider->getAuthorizationUrl();
 
             $session->set('oauth2state', $this->provider->getState());
             

@@ -118,6 +118,7 @@ final class UserService implements UserServiceInterface
                 u::newUuid(),
                 s::newString(['name' => $name]),
                 e::newEmail($email),
+                $picture !== null ? s::newString(['picture' => $picture]): null,
                 s::newString(['user_id' => $userId]),
                 s::newString(['provider' => $provider])
             );

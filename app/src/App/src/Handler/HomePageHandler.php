@@ -10,6 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use App\Domain\Handler\User\LoginFacebook;
+use App\Domain\Handler\User\LoginGoogle;
 
 class HomePageHandler implements RequestHandlerInterface
 {
@@ -26,9 +27,11 @@ class HomePageHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         $fb = $request->getAttribute(LoginFacebook::class);
+        $gg = $request->getAttribute(LoginGoogle::class);
 
         $data = [
-            'facebook' => $fb
+            'facebook' => $fb,
+            'google' => $gg
         ];
 
         return new HtmlResponse($this->template->render('app::home-page', $data));

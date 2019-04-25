@@ -92,9 +92,13 @@ final class Authentication implements MiddlewareInterface
                 }
             }            
         } catch (\Exception $e) {
-            $this->usersService->timeout($session->get(
-                $this->jwtSession['session_jti']
-            ));
+            if ($session->has($this->jwtSession['session_jti']) &&
+                $session->get($this->jwtSession['session_jti'] !== null)) {
+
+                $this->usersService->timeout($session->get(
+                    $this->jwtSession['session_jti']
+                ));
+            }
 
             $message->flash(Login::LOGGED, [
                 'logged' => false,

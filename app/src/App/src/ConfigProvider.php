@@ -33,7 +33,8 @@ class ConfigProvider
     {
         return [
             'aliases' => [
-                \App\Domain\Service\Facebook\ProviderInterface::class => \League\OAuth2\Client\Provider\Facebook::class
+                \App\Domain\Service\Facebook\ProviderInterface::class => \League\OAuth2\Client\Provider\Facebook::class,
+                \App\Domain\Service\Google\ProviderInterface::class => \League\OAuth2\Client\Provider\Google::class
             ],
             'invokables' => [
                 Handler\PingHandler::class => Handler\PingHandler::class,
@@ -51,12 +52,15 @@ class ConfigProvider
                 \App\Domain\Handler\User\CreateOauth::class => \App\Core\Factory\UserAuthHandlerFactory::class,
                 \App\Domain\Handler\User\Login::class => \App\Core\Factory\UserAuthHandlerFactory::class,
                 \App\Domain\Handler\User\Logout::class => \App\Core\Factory\UserAuthHandlerFactory::class,
-                \App\Domain\Handler\User\LoginFacebook::class => \App\Core\Factory\UserAuthHandlerFacebookFactory::class,
-                \App\Domain\Handler\User\LoginCallbackFacebook::class => \App\Core\Factory\UserAuthHandlerFacebookFactory::class,
+                \App\Domain\Handler\User\LoginFacebook::class => \App\Core\Factory\UserAuthHandlerProviderFactory::class,
+                \App\Domain\Handler\User\LoginCallbackFacebook::class => \App\Core\Factory\UserAuthHandlerProviderFactory::class,
+                \App\Domain\Handler\User\LoginGoogle::class => \App\Core\Factory\UserAuthHandlerProviderFactory::class,
+                \App\Domain\Handler\User\LoginCallbackGoogle::class => \App\Core\Factory\UserAuthHandlerProviderFactory::class,
 
                 // service
                 \App\Domain\Service\UserServiceInterface::class => \App\Core\Domain\Service\UserServiceFactory::class,
                 \League\OAuth2\Client\Provider\Facebook::class => \App\Core\Domain\Service\Facebook\ProviderFactory::class,
+                \League\OAuth2\Client\Provider\Google::class => \App\Core\Domain\Service\Google\ProviderFactory::class,
 
                 // repository
                 \App\Infrastructure\Repository\UserRepositoryInterface::class => \App\Core\Infrastructure\Repository\UserRepositoryFactory::class,

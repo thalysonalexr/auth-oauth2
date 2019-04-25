@@ -8,14 +8,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use League\OAuth2\Client\Provider\Facebook;
+use League\OAuth2\Client\Provider\Google;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Expressive\Router\RouterInterface;
-use App\Domain\Service\Facebook as Fb;
-use App\Domain\Service\Facebook\ProviderInterface;
+use App\Domain\Service\Google as Gg;
+use App\Domain\Service\Google\ProviderInterface;
 
-final class LoginCallbackFacebook implements MiddlewareInterface
+final class LoginCallbackGoogle implements MiddlewareInterface
 {
     /**
      * @var bool
@@ -28,7 +28,7 @@ final class LoginCallbackFacebook implements MiddlewareInterface
     public const PROVIDER = ProviderInterface::class;
 
     /**
-     * @var Facebook
+     * @var Google
      */
     private $provider;
 
@@ -37,7 +37,7 @@ final class LoginCallbackFacebook implements MiddlewareInterface
      */
     private $router;
 
-    public function __construct(Facebook $provider, RouterInterface $router)
+    public function __construct(Google $provider, RouterInterface $router)
     {
         $this->provider = $provider;
         $this->router   = $router;
@@ -66,11 +66,10 @@ final class LoginCallbackFacebook implements MiddlewareInterface
 
             // persist data if never registered
             return $handler->handle($request->withParsedBody([
-                'provider' => 'facebook',
+                'provider' => 'google',
                 'user_id' => $user->getId(),
                 'name' => $user->getName(),
-                'email' => $user->getEmail(),
-                'picture' => $user->getPictureUrl()
+                'email' => $user->getEmail()
             ])->withAttribute(Fb\ProviderInterface::class, [
                 'expires' => $token->getExpires(),
                 'token' => $token->getToken()

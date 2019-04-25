@@ -48,7 +48,8 @@ class User implements UserInterface
         StringValue $name,
         Email $email,
         ?Password $password,
-        \MongoDate $createdAt
+        \MongoDate $createdAt,
+        ?StringValue $picture
     )
     {
         $this->uuid = $uuid;
@@ -56,6 +57,7 @@ class User implements UserInterface
         $this->email = $email;
         $this->password = $password;
         $this->createdAt = $createdAt;
+        $this->picture = $picture;
     }
 
     public function getId(): Uuid
@@ -155,10 +157,11 @@ class User implements UserInterface
         Uuid $uuid,
         StringValue $name,
         Email $email,
-        Password $password
+        Password $password,
+        StringValue $picture = null
     ): self
     {
-        return new self($uuid, $name, $email, $password, Date::newDate()->convertToMongoDate());
+        return new self($uuid, $name, $email, $password, Date::newDate()->convertToMongoDate(), $picture);
     }
 
     public function jsonSerialize(): array

@@ -1,19 +1,17 @@
 {
-    "name": "zendframework/zend-expressive-skeleton",
-    "description": "Zend expressive skeleton. Begin developing PSR-15 middleware applications in seconds!",
+    "name": "thalysonrodrigues/auth-oauth2",
+    "description": "A simple application for study of integration OAuth 2.0. Providers Facebook and Google.",
     "type": "project",
-    "homepage": "https://github.com/zendframework/zend-expressive-skeleton",
-    "license": "BSD-3-Clause",
+    "homepage": "https://github.com/thalysonrodrigues/auth-oauth2",
+    "license": "MIT",
     "keywords": [
-        "skeleton",
         "middleware",
-        "psr",
-        "psr-7",
-        "psr-11",
         "psr-15",
-        "zf",
-        "zendframework",
-        "zend-expressive"
+        "zend-expressive",
+        "oauth2",
+        "authorization",
+        "oauth2 google",
+        "oauth2 facebook"
     ],
     "config": {
         "sort-packages": true,

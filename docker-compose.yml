@@ -17,6 +17,7 @@ services:
     links:
       - php
       - mongodb
+      - composer
     depends_on:
       - php
       - composer
@@ -33,14 +34,13 @@ services:
       - ./app:/var/www/html
 
   composer:
-    image: composer
+    image: composer:latest
     links:
       - php
     container_name: auth_oauth2_composer
     volumes:
-      - ./app:/var/www/html
-      - /var/www/html/vendor
-    command: install
+      - ./app:/app
+    command: install --ignore-platform-reqs
     restart: 'no'
 
   mongodb:

@@ -3,24 +3,25 @@
 [![GitHub version](https://badge.fury.io/gh/thalysonrodrigues%2Fauth-oauth2.svg)](https://badge.fury.io/gh/thalysonrodrigues%2Fauth-oauth2)
 [![Software License](https://img.shields.io/apm/l/vim-mode.svg)](https://github.com/thalysonrodrigues/login-facebook/blob/master/LICENSE)
 
-> This is a simple application built with the [zend-expressive](https://docs.zendframework.com/zend-expressive/) skeleton for Oauth2.0 integration study with [Facebook](https://github.com/thephpleague/oauth2-facebook) and [Google](https://github.com/thephpleague/oauth2-google) providers. In addition, this template provides user registration and login and some integrated psr-15 middlewares like Https, Content-Lenght, Www, Access-Log, Client-ip, for more details see `app/composer.json`.
+> Esta uma aplicação simples construída com o esqueleto de [zend-expressive](https://docs.zendframework.com/zend-expressive/) para estudo de integração de Oauth2.0 com os provedores [Facebook](https://github.com/thephpleague/oauth2-facebook) e [Google](https://github.com/thephpleague/oauth2-google). Além disto este template fornece cadastro e login de usuário e alguns middlewares da psr-15 integrados como Https, Content-Lenght, Www, Access-Log, Client-ip, para mais detalhes veja `app/composer.json`.
 
-## Installation
+## Instalação
 
 ### Download (zip)
 
-Download this [link]()
+Faça download neste [link]()
 
 ### Build
 
-Clone this repository
+Clonar este repositório
 ```
 $ git clone https://github.com/thalysonrodrigues/auth-oauth2.git
 ```
 
-## Development
 
-The infrastructure for the development environment uses [Docker CE](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/), the configuration for each container can be seen in `docker-compose.yaml`. The application executes through the following containers:
+## Desenvolvimento
+
+A infraestrutura para o ambiente de desenvolvimento utiliza [Docker CE](https://docs.docker.com/install/) e [Docker Compose](https://docs.docker.com/compose/), a configuração para cada container pode ser vista em `docker-compose.yaml`. A aplicação executa através dos seguintes containers:
 
 ### Containers
 
@@ -35,7 +36,7 @@ The infrastructure for the development environment uses [Docker CE](https://docs
   </a>
 </p>
 
-## Credits
+## Créditos
 
 * Thalyson Alexandre Rodrigues de Sousa
     - [Github](https://github.com/thalysonrodrigues)

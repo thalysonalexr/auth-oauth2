@@ -75,11 +75,11 @@ class ConfigProvider
     {
         return [
             'paths' => [
-                'app'        => [__DIR__ . '/../templates/app'],
-                'user'       => [__DIR__ . '/../templates/app/user'],
-                'components' => [__DIR__ . '/../templates/app/components'],
-                'error'      => [__DIR__ . '/../templates/error'],
-                'layout'     => [__DIR__ . '/../templates/layout'],
+                'app'        => [__DIR__ . '/../../resources/templates/app'],
+                'user'       => [__DIR__ . '/../../resources/templates/app/user'],
+                'components' => [__DIR__ . '/../../resources/templates/app/components'],
+                'error'      => [__DIR__ . '/../../resources/templates/error'],
+                'layout'     => [__DIR__ . '/../../resources/templates/layout'],
             ],
         ];
     }

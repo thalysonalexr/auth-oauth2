@@ -3,110 +3,75 @@
 {% block title %}Login with Oauth2{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}" type="text/css">
 {% endblock %}
 
 {% block content %}
-    <div class="container-flex">
-        <p id="title-home" class="display-1">
-            Login with <span class="facebook-color">Oauth2</span> API's
-        </p>
-        <div class="box-btn-menu">
-            <div>
-                <a data-toggle="modal" data-target="#register" title="Register now!" class="btn add">
-                    <i class="fas fa-user-plus fa-lg"></i>
-                    <span class="text-btn">Register</span>
-                </a>
-            </div>
-            <div>
-                <a data-toggle="modal" data-target="#login" title="Login now!" class="btn login">
-                    <i class="fas fa-sign-in-alt fa-lg"></i>
-                    <span class="text-btn">Login</span>
-                </a>
-            </div>
-            {% if facebook.logged is defined and facebook.logged == false %}
-            <div>
-                <a href="{{ facebook.auth_url }}" title="Login with facebook" class="btn facebook">
-                    <i class="fab fa-facebook-f fa-lg"></i>
-                    <span class="text-btn">facebook</span>
-                </a>
-            </div>
-            {% endif %}
-            <div>
-                <a href="{{ google.auth_url }}" title="Login with google" class="btn google">
-                    <i class="fab fa-google"></i>
-                    <span class="text-btn">google</span>
-                </a>
-            </div>
+  <div class="container-flex">
+    <p id="title-home" class="display-1">
+      Login with <span class="facebook-color">Oauth2</span> API's
+    </p>
+    {% include '@components/nav/menu.html.twig' with {
+      facebook: facebook,
+      google: google
+    } only %}
+    <!-- form register in modal -->
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="RegisterNow" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            {% include '@components/headers/modal.html.twig' with {
+              label: 'Register a new User in App'
+            } only %}
+          </div>
+          <div class="alert alert-danger show-alert-register" role="alert"></div>
+          <div class="modal-body">
+            {% include '@components/forms/register.html.twig' with {
+              id: 'form-register',
+              action: 'register.post'
+            } only %}
+          </div>
+          <div class="modal-footer">
+            {% include '@components/buttons/modal.html.twig' with {
+              idSubmit: 'btn-submit-register',
+              form: 'form-register',
+              lblClose: 'Close',
+              lblSubmit: 'Create a new User'
+            } only %}
+          </div>
         </div>
-        <!-- form register in modal -->
-        <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="RegisterNow" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="register-label">Register a new user!</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span class="close" aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="alert alert-danger show-alert-register" role="alert"></div>
-                    <div class="modal-body">
-                        <form id="form-register">
-                            <div class="form-group">
-                                <label for="name" class="col-form-label">Name</label>
-                                <input type="text" class="form-control ipt-form-register" id="name" placeholder="John Badge" name="name" required autofocus>
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="col-form-label">Email</label>
-                                <input type="email" class="form-control ipt-form-register" id="email" placeholder="example@email.com" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="password" class="col-form-label">Password</label>
-                                <input type="password" class="form-control ipt-form-register" id="password" placeholder="Min 5 characters and maximum 12" name="password" minlength="5" maxlength="12" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="conf-password" class="col-form-label">Confirm password</label>
-                                <input type="password" class="form-control ipt-form-register" id="conf-password" placeholder="Repeat your password" minlength="5" maxlength="12" required>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" form="form-register" class="btn btn-primary disabled" id="btn-submit-register" disabled>Create user</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- form login in modal -->
-        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="LoginNow" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="login-label">Login now!</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span class="close" aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="alert alert-danger show-alert-login" role="alert"></div>
-                    <div class="modal-body">
-                        <form id="form-login" method="post" action="{{ path('login.post') }}">
-                            <div class="form-group">
-                                <input type="email" class="form-control ipt-form-login" id="email-login" name="email" placeholder="example@email.com" required autofocus>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control ipt-form-login" id="password-login" name="password" placeholder="Your password" minlength="5" maxlength="12" required>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" form="form-login" class="btn btn-primary disabled" id="btn-submit-login" disabled>Log In</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-    {% block javascript %}
-        <script src="{{ asset('assets/js/home.js') }}"></script>
-    {% endblock %}
+    <!-- end form register -->
+    <!-- form login in modal -->
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="LoginNow" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            {% include '@components/headers/modal.html.twig' with {
+              label: 'Login with Credentials'
+            } only %}
+          </div>
+          <div class="alert alert-danger show-alert-login" role="alert"></div>
+          <div class="modal-body">
+            {% include '@components/forms/login.html.twig' with {
+              id: 'form-login',
+              action: 'login.post'
+            } only %}
+          </div>
+          <div class="modal-footer">
+            {% include '@components/buttons/modal.html.twig' with {
+              idSubmit: 'btn-submit-login',
+              form: 'form-login',
+              lblClose: 'Close',
+              lblSubmit: 'Login Now!'
+            } only %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% block javascript %}
+  <script src="{{ asset('assets/js/home.js') }}"></script>
+{% endblock %}
 {% endblock %}

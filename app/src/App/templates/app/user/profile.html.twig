@@ -1,0 +1,36 @@
+{% extends '@layout/default.html.twig' %}
+
+{% block title %}User profile{% endblock %}
+
+{% block content %}
+
+  <section>
+    <div class="wrapper container">
+      {% if messages.logged is defined and messages.logged == true %}
+        <div class="alert alert-success">{{ messages.message }}</div>
+      {% endif %}
+
+      {% if data.name is defined %}
+        <h1>Welcome, {{ data.name }}!</h1>
+      {% endif %}
+
+      {% if data.picture is defined and data.picture != null %}
+        <img src="{{ data.picture }}">
+      {% endif %}
+
+      {% if data.id is defined and data.email %}
+      <ul>
+        <li>ID: {{ data.id }}</li>
+        <li>E-mail: {{ data.email }}</li>
+      </ul>
+      {% endif %}
+      <div>
+        {% include '@components/forms/logout.html.twig' with {
+          id: 'logout',
+          action: 'logout.post',
+          btnLabel: 'Sign Out'
+        } only %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

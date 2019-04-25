@@ -124,9 +124,9 @@ class User implements UserInterface
         return Date::fromString($this->createdAt);
     }
 
-    public function getPicture(): StringValue
+    public function getPicture(): ?StringValue
     {
-        if ($this->picture instanceof StringValue) {
+        if ($this->picture instanceof StringValue || $this->picture === null) {
             return $this->picture;
         }
 

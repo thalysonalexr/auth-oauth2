@@ -70,7 +70,7 @@ final class Authentication implements MiddlewareInterface
                 $user  = $this->usersService->getByEmail($payload->email, User::class);
 
                 if ($user instanceof User) {
-                    return $handler->handle($request->withAttribute(self::class, $payload));
+                    return $handler->handle($request->withAttribute(self::class, $user));
                 }
                 
             } catch (UserNotFoundException $e) {
@@ -79,7 +79,7 @@ final class Authentication implements MiddlewareInterface
                     $user = $this->usersService->getByEmail($payload->email, UserOauth::class);
 
                     if ($user instanceof UserOauth) {
-                        return $handler->handle($request->withAttribute(self::class, $payload));
+                        return $handler->handle($request->withAttribute(self::class, $user));
                     }
     
                 } catch (UserNotFoundException $e) {

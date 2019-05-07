@@ -1,0 +1,19 @@
+{
+  "build/css/materialize.css": "/build/css/materialize.css",
+  "build/css/style.css": "/build/css/style.css",
+  "build/css/style.js": "/build/css/style.js",
+  "build/icons/font-awesome.css": "/build/icons/font-awesome.css",
+  "build/images/app.js": "/build/images/app.js",
+  "build/js/app.js": "/build/js/app.js",
+  "build/js/home.js": "/build/js/home.js",
+  "build/js/store/http.js": "/build/js/store/http.js",
+  "build/runtime.js": "/build/runtime.js",
+  "build/fonts/fontawesome-webfont.eot": "/build/fonts/fontawesome-webfont.674f50d2.eot",
+  "build/fonts/fontawesome-webfont.woff2": "/build/fonts/fontawesome-webfont.af7ae505.woff2",
+  "build/fonts/fontawesome-webfont.ttf": "/build/fonts/fontawesome-webfont.b06871f2.ttf",
+  "build/fonts/fontawesome-webfont.woff": "/build/fonts/fontawesome-webfont.fee66e71.woff",
+  "build/node_modules/font-awesome/fonts/fontawesome-webfont.svg": "/build/node_modules/font-awesome/fonts/fontawesome-webfont.912ec66d.svg",
+  "build/resources/assets/images/mongodb.png": "/build/resources/assets/images/mongodb.77521b72.png",
+  "build/resources/assets/images/nginx.png": "/build/resources/assets/images/nginx.ac413427.png",
+  "build/resources/assets/images/php7.png": "/build/resources/assets/images/php7.d3ceea43.png"
+}

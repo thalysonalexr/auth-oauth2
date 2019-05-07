@@ -1,0 +1,12 @@
+{% extends '@layout/default.html.twig' %}
+
+{% block title %}Register Now!{% endblock %}
+
+{% block content %}
+  <div class="row">
+    {% include '@components/forms/register.html.twig' with {
+      id: 'form-register',
+      action: 'register.post'
+    } only %}
+  </div>
+{% endblock %}

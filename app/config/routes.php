@@ -11,9 +11,13 @@ use Zend\Expressive\MiddlewareFactory;
  */
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
 
+    $app->get('/login', \App\Handler\LoginPageHandler::class, 'login.get');
     $app->post('/login', \App\Domain\Handler\User\Login::class, 'login.post');
 
     $app->post('/logout', \App\Domain\Handler\User\Logout::class, 'logout.post');
+
+    $app->get('/register', \App\Handler\RegisterPageHandler::class, 'register.get');
+    $app->post('/register', \App\Domain\Handler\User\Create::class, 'register.post');
 
     $app->get('/login/facebook/callback', [
         \App\Domain\Handler\User\LoginCallbackFacebook::class,
@@ -24,8 +28,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
         \App\Domain\Handler\User\LoginCallbackGoogle::class,
         \App\Domain\Handler\User\CreateOauth::class
     ], 'login-google-callback.get');
-
-    $app->post('/register', \App\Domain\Handler\User\Create::class, 'register.post');
 
     // pages
     $app->get('/', [
@@ -38,6 +40,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     $app->get('/profile', [
         \App\Domain\Middleware\Authentication::class,
-        \App\Handler\User\ProfileHandler::class
+        \App\Handler\User\ProfilePageHandler::class
     ], 'profile.get');
 };

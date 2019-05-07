@@ -1,0 +1,39 @@
+{
+  "name": "auth-oauth2",
+  "version": "1.0.0",
+  "description": "A simple application for study of integration OAuth 2.0. Providers Facebook and Google.",
+  "main": "resources/assets/js/app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thalysonrodrigues/auth-oauth2.git"
+  },
+  "keywords": [
+    "expressive",
+    "oauth2",
+    "middlewares",
+    "google oauth",
+    "facebook oauth"
+  ],
+  "author": "Thalyson Rodrigues",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thalysonrodrigues/auth-oauth2/issues"
+  },
+  "homepage": "https://github.com/thalysonrodrigues/auth-oauth2#readme",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.27.0"
+  },
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.4.0",
+    "materialize-css": "^1.0.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0"
+  }
+}

@@ -1,0 +1,18 @@
+{% extends '@layout/default.html.twig' %}
+
+{% block title %}Login Now!{% endblock %}
+
+{% block content %}
+  <div class="wrapper">
+    <h1 class="flow-text center-align title">Login with <span class="oauth-color">Oauth2.0</span> API's</h1>
+    <blockquote>
+      Log In to default application, data created in <a href="{{ path('register.get') }}" title="Register Now!">user registery</a>.
+    </blockquote>
+    <div class="row">
+      {% include '@components/forms/login.html.twig' with {
+        id: 'form-login',
+        action: 'login.post'
+      } only %}
+    </div>
+  </div>
+{% endblock %}

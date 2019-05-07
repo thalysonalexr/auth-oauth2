@@ -1,0 +1,53 @@
+{
+  "entrypoints": {
+    "js/app": {
+      "js": [
+        "/build/runtime.js",
+        "/build/js/app.js"
+      ]
+    },
+    "js/home": {
+      "js": [
+        "/build/runtime.js",
+        "/build/js/home.js"
+      ]
+    },
+    "js/store/http": {
+      "js": [
+        "/build/runtime.js",
+        "/build/js/store/http.js"
+      ]
+    },
+    "css/style": {
+      "js": [
+        "/build/runtime.js",
+        "/build/css/style.js"
+      ],
+      "css": [
+        "/build/css/style.css"
+      ]
+    },
+    "images/app": {
+      "js": [
+        "/build/runtime.js",
+        "/build/images/app.js"
+      ]
+    },
+    "icons/font-awesome": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/icons/font-awesome.css"
+      ]
+    },
+    "css/materialize": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/css/materialize.css"
+      ]
+    }
+  }
+}

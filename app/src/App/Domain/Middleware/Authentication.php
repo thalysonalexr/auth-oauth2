@@ -90,10 +90,10 @@ final class Authentication implements MiddlewareInterface
     
                     return new RedirectResponse($this->router->generateUri('home.get'), 301);
                 }
-            }            
+            }
         } catch (\Exception $e) {
             if ($session->has($this->jwtSession['session_jti']) &&
-                $session->get($this->jwtSession['session_jti'] !== null)) {
+                $session->get($this->jwtSession['session_jti']) !== null) {
 
                 $this->usersService->timeout($session->get(
                     $this->jwtSession['session_jti']

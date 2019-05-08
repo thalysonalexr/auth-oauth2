@@ -14,7 +14,7 @@ use App\Domain\Handler\User\Login;
 use Zend\Diactoros\Response\RedirectResponse;
 use App\Domain\Middleware\Authentication;
 
-class ProfileHandler implements RequestHandlerInterface
+class ProfilePageHandler implements RequestHandlerInterface
 {
     /**
      * @var TemplateRendererInterface

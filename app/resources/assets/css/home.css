@@ -1,58 +1,20 @@
+@charset 'UTF-8';
+
+.title{
+  color: #515151;
+  font-size: 2em!important;
+}
+
 .oauth-color{
-  color: #f44256;
-}
-
-.menu{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-}
-
-.btn{ display: flex; }
-.btn i, .btn span{ color: #fcfcfc; }
-
-.btn .text-btn{
+  color: #fc2d75;
+  text-shadow: 1px 2px 2px #dbdbdb;
   font-weight: 600;
-  width: 100%;
 }
 
-.row{ margin: 0 0 3% 0; }
-.col-center{
-  float: none !important;
-  margin-left: auto;
-  margin-right: auto;
-}
-.sign-network{
-  margin-top: 5%!important;
-  display: flex;
-}
-
-@media screen and (min-width: 360px) {
-  .title{ font-size: 2em; }
+a.facebook, a.google, a.register, a.login{
+  width: 100%!important;
 }
 
 @media screen and (min-width: 600px) {
-  .title{ font-size: 2.5em; }
-  .col-left{
-    margin-left: auto!important;
-    margin-right: 0!important;
-  }
-  .col-right{
-    margin-right: auto!important;
-    margin-left: 0!important;
-  }
-}
 
-@media screen and (min-width: 1200px) {
-  .btn{ width: 150px; }
-  .sign-network{
-    display: flex;
-    flex-direction: row;
-  }
-  .col, .row{ margin: 0!important; }
-  .menu{
-    flex-direction: row!important;
-    margin: 0!important;
-  }
 }

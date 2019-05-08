@@ -41,8 +41,10 @@ class ConfigProvider
             ],
             'factories'  => [
                 // homepage
-                \App\Handler\HomePageHandler::class => \App\Handler\HomePageHandlerFactory::class,
-                \App\Handler\User\ProfileHandler::class => \App\Handler\User\Factory\ProfileHandlerFactory::class,
+                \App\Handler\HomePageHandler::class => \App\Handler\PageHandlerFactory::class,
+                \App\Handler\LoginPageHandler::class => \App\Handler\PageHandlerFactory::class,
+                \App\Handler\RegisterPageHandler::class => \App\Handler\PageHandlerFactory::class,
+                \App\Handler\User\ProfilePageHandler::class => \App\Handler\PageHandlerFactory::class,
 
                 // connection
                 \Doctrine\ODM\MongoDB\DocumentManager::class => \App\Core\Factory\DocumentManagerFactory::class,

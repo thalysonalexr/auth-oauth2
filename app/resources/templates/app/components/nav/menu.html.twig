@@ -1,30 +1,34 @@
-<div class="box-btn-menu">
-  <div>
-    <a data-toggle="modal" data-target="#register" title="Register now!" class="btn add">
-      <i class="fas fa-user-plus fa-lg"></i>
-      <span class="text-btn">Register</span>
-    </a>
+<div class="btn-menu">
+  <div class="row">
+    <div class="col s6">
+      <a href="{{ path(register_url) }}" title="Register now!" class="btn-large waves-effect waves-light register">
+        <i class="material-icons">account_circle</i>
+        <span class="text-btn truncate hide-on-small-only">Register</span>
+      </a>
+    </div>
+    <div class="col s6">
+      <a href="{{ path(login_url) }}" title="Login now!" class="btn-large waves-effect waves-light login">
+        <i class="material-icons">input</i>
+        <span class="text-btn truncate hide-on-small-only">Login</span>
+      </a>
+    </div>
   </div>
-  <div>
-    <a data-toggle="modal" data-target="#login" title="Login now!" class="btn login">
-      <i class="fas fa-sign-in-alt fa-lg"></i>
-      <span class="text-btn">Login</span>
-    </a>
+  <div class="row">
+    {% if facebook.logged is defined and facebook.logged == false %}
+    <div class="col s6">
+      <a href="{{ facebook.auth_url }}" title="Login with facebook" class="btn-large waves-effect waves-light facebook">
+        <i class="fa fa-facebook"></i>
+        <span class="text-btn truncate hide-on-small-only">facebook</span>
+      </a>
+    </div>
+    {% endif %}
+    {% if google.logged is defined and google.logged == false %}
+    <div class="col s6">
+      <a href="{{ google.auth_url }}" title="Login with google" class="btn-large waves-effect waves-light google">
+        <i class="fa fa-google"></i>
+        <span class="text-btn truncate hide-on-small-only">google</span>
+      </a>
+    </div>
+    {% endif %}
   </div>
-  {% if facebook.logged is defined and facebook.logged == false %}
-  <div>
-    <a href="{{ facebook.auth_url }}" title="Login with facebook" class="btn facebook">
-      <i class="fab fa-facebook-f fa-lg"></i>
-      <span class="text-btn">facebook</span>
-    </a>
-  </div>
-  {% endif %}
-  {% if google.logged is defined and google.logged == false %}
-  <div>
-    <a href="{{ google.auth_url }}" title="Login with google" class="btn google">
-      <i class="fab fa-google"></i>
-      <span class="text-btn">google</span>
-    </a>
-  </div>
-  {% endif %}
 </div>

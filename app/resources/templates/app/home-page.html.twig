@@ -2,77 +2,23 @@
 
 {% block title %}Login with Oauth2{% endblock %}
 
-{% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}" type="text/css">
-{% endblock %}
-
 {% block content %}
-  <div class="container-flex">
-    <p id="title-home" class="display-1">
-      Login with <span class="facebook-color">Oauth2</span> API's
-    </p>
+  <div class="wrapper">
+    <header>
+      <h1 class="flow-text center-align title">Login with <span class="oauth-color">Oauth2.0</span> API's</h1>
+      <blockquote>
+        This is a simple template for developing applications that require Oauth2.0 authorizations with facebook and google, in addition to providing standard registration and login.
+        <!-- Este é um modelo simples para desenvolvimento de aplicações que necesssitam de autorizações Oauth2.0 com facebook e google, além de fornecer cadastro e login padrões. -->
+      </blockquote>
+    </header>
     {% include '@components/nav/menu.html.twig' with {
       facebook: facebook,
-      google: google
+      google: google,
+      login_url: 'login.get',
+      register_url: 'register.get'
     } only %}
-    <!-- form register in modal -->
-    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="RegisterNow" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            {% include '@components/headers/modal.html.twig' with {
-              label: 'Register a new User in App'
-            } only %}
-          </div>
-          <div class="alert alert-danger show-alert-register" role="alert"></div>
-          <div class="modal-body">
-            {% include '@components/forms/register.html.twig' with {
-              id: 'form-register',
-              action: 'register.post'
-            } only %}
-          </div>
-          <div class="modal-footer">
-            {% include '@components/buttons/modal.html.twig' with {
-              idSubmit: 'btn-submit-register',
-              form: 'form-register',
-              lblClose: 'Close',
-              lblSubmit: 'Create a new User'
-            } only %}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- end form register -->
-    <!-- form login in modal -->
-    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="LoginNow" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            {% include '@components/headers/modal.html.twig' with {
-              label: 'Login with Credentials'
-            } only %}
-          </div>
-          <div class="alert alert-danger show-alert-login" role="alert"></div>
-          <div class="modal-body">
-            {% include '@components/forms/login.html.twig' with {
-              id: 'form-login',
-              action: 'login.post'
-            } only %}
-          </div>
-          <div class="modal-footer">
-            {% include '@components/buttons/modal.html.twig' with {
-              idSubmit: 'btn-submit-login',
-              form: 'form-login',
-              lblClose: 'Close',
-              lblSubmit: 'Login Now!'
-            } only %}
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 {% block javascript %}
-  <script src="{{ asset('assets/js/store/app.js') }}"></script>
-  <script src="{{ asset('assets/js/home.js') }}"></script>
+  <script src="{{ asset('build/js/effects.js') }}"></script>
 {% endblock %}
 {% endblock %}

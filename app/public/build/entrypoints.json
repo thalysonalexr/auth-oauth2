@@ -6,10 +6,10 @@
         "/build/js/app.js"
       ]
     },
-    "js/home": {
+    "js/effects": {
       "js": [
         "/build/runtime.js",
-        "/build/js/home.js"
+        "/build/js/effects.js"
       ]
     },
     "js/store/http": {
@@ -47,6 +47,14 @@
       ],
       "css": [
         "/build/css/materialize.css"
+      ]
+    },
+    "icons/materialize": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/icons/materialize.css"
       ]
     }
   }

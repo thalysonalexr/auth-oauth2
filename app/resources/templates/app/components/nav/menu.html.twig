@@ -1,32 +1,32 @@
 <div class="btn-menu">
-  <div class="row">
-    <div class="col s6">
+  <div class="row default">
+    <div class="col s6 m12 l3">
       <a href="{{ path(register_url) }}" title="Register now!" class="btn-large waves-effect waves-light register">
-        <i class="material-icons">account_circle</i>
-        <span class="text-btn truncate hide-on-small-only">Register</span>
+        <i class="left material-icons">person_add</i>
+        <span class="text-btn truncate">Register</span>
       </a>
     </div>
-    <div class="col s6">
+    <div class="col s6 m12 l3">
       <a href="{{ path(login_url) }}" title="Login now!" class="btn-large waves-effect waves-light login">
-        <i class="material-icons">input</i>
-        <span class="text-btn truncate hide-on-small-only">Login</span>
+        <i class="left material-icons">input</i>
+        <span class="text-btn truncate">Login</span>
       </a>
     </div>
   </div>
   <div class="row">
     {% if facebook.logged is defined and facebook.logged == false %}
-    <div class="col s6">
-      <a href="{{ facebook.auth_url }}" title="Login with facebook" class="btn-large waves-effect waves-light facebook">
-        <i class="fa fa-facebook"></i>
-        <span class="text-btn truncate hide-on-small-only">facebook</span>
+    <div class="col s6 l3">
+      <a href="{{ facebook.auth_url }}" title="Login with facebook" class="btn-large waves-effect waves-light facebook fb-color">
+        <i class="left fa fa-facebook"></i>
+        <span class="text-btn truncate">facebook</span>
       </a>
     </div>
     {% endif %}
     {% if google.logged is defined and google.logged == false %}
-    <div class="col s6">
-      <a href="{{ google.auth_url }}" title="Login with google" class="btn-large waves-effect waves-light google">
-        <i class="fa fa-google"></i>
-        <span class="text-btn truncate hide-on-small-only">google</span>
+    <div class="col s6 l3">
+      <a href="{{ google.auth_url }}" title="Login with google" class="btn-large waves-effect waves-light google gg-color">
+        <i class="left fa fa-google"></i>
+        <span class="text-btn truncate">google</span>
       </a>
     </div>
     {% endif %}

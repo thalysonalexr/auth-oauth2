@@ -11,10 +11,39 @@
   font-weight: 600;
 }
 
+.fb-color{ background-color: #4267b2!important; }
+.gg-color{ background-color: #d93025!important; }
+
 a.facebook, a.google, a.register, a.login{
   width: 100%!important;
 }
 
-@media screen and (min-width: 600px) {
+/* medium devices */
+@media only screen and (min-width: 600px) {
+  .description > .title{ font-size: 3em!important; }
+  .description > blockquote{ font-size: 1.2em!important; }
 
+  .btn-menu .default > .col:first-child{ margin-bottom: 20px; }
+
+  .btn-menu a.btn-large > i{ font-size: 2rem; }
+  .btn-menu a.btn-large > span{ font-size: 1.2em; }
+  
+  .btn-menu a.register > span::after{ content: ' a new user now!'; }
+  .btn-menu a.login > span::before{ content: 'do '; }
+  .btn-menu a.login > span::after{ content: ' now!'; }
+}
+
+/* medium devices */
+@media only screen and (min-width: 800px) {
+  .btn-menu a.google > span::before{ content: 'log in '; }
+  .btn-menu a.facebook > span::before{ content: 'log in '; }
+}
+
+/* desktop devices */
+@media only screen and (min-width: 992px) {
+  .btn-menu a.btn-large > span::before{ content: ''; }
+  .btn-menu a.btn-large > span::after{ content: ''; }
+
+  .btn-menu .row { margin: 0; }
+  .btn-menu .row::after { display: unset; }
 }
